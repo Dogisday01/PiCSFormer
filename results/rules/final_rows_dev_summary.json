@@ -1,0 +1,146 @@
+{
+ "bpsd|single": {
+  "mean": {
+   "root": 66.87,
+   "majmin": 73.85,
+   "triads": 63.45,
+   "sevenths": 60.78,
+   "tetrads": 53.47,
+   "mirex": 71.04
+  },
+  "sd_models": {
+   "root": 0.13,
+   "majmin": 0.18,
+   "triads": 0.18,
+   "sevenths": 0.29,
+   "tetrads": 0.25,
+   "mirex": 0.3
+  }
+ },
+ "bpsd|rules": {
+  "mean": {
+   "root": 67.4,
+   "majmin": 74.6,
+   "triads": 65.23,
+   "sevenths": 62.65,
+   "tetrads": 55.29,
+   "mirex": 71.62
+  },
+  "sd_models": {
+   "root": 0.19,
+   "majmin": 0.18,
+   "triads": 0.17,
+   "sevenths": 0.33,
+   "tetrads": 0.31,
+   "mirex": 0.23
+  }
+ },
+ "guitar|single": {
+  "mean": {
+   "root": 86.68,
+   "majmin": 90.85,
+   "triads": 60.09,
+   "sevenths": 87.34,
+   "tetrads": 56.44,
+   "mirex": 87.55
+  },
+  "sd_models": {
+   "root": 9.02,
+   "majmin": 5.84,
+   "triads": 11.88,
+   "sevenths": 6.2,
+   "tetrads": 12.58,
+   "mirex": 6.77
+  }
+ },
+ "guitar|rules": {
+  "mean": {
+   "root": 87.95,
+   "majmin": 92.15,
+   "triads": 61.69,
+   "sevenths": 89.61,
+   "tetrads": 57.81,
+   "mirex": 88.63
+  },
+  "sd_models": {
+   "root": 8.29,
+   "majmin": 5.07,
+   "triads": 11.22,
+   "sevenths": 5.34,
+   "tetrads": 12.04,
+   "mirex": 6.18
+  }
+ },
+ "jazz|single": {
+  "mean": {
+   "root": 66.5,
+   "majmin": 61.82,
+   "triads": 57.49,
+   "sevenths": 43.07,
+   "tetrads": 38.57,
+   "mirex": 70.82
+  },
+  "sd_models": {
+   "root": 0.34,
+   "majmin": 0.5,
+   "triads": 0.46,
+   "sevenths": 0.62,
+   "tetrads": 0.55,
+   "mirex": 0.31
+  }
+ },
+ "jazz|rules": {
+  "mean": {
+   "root": 66.71,
+   "majmin": 62.92,
+   "triads": 59.37,
+   "sevenths": 44.21,
+   "tetrads": 39.39,
+   "mirex": 69.88
+  },
+  "sd_models": {
+   "root": 0.31,
+   "majmin": 0.41,
+   "triads": 0.59,
+   "sevenths": 0.67,
+   "tetrads": 0.54,
+   "mirex": 0.53
+  }
+ },
+ "rwcp|single": {
+  "mean": {
+   "root": 84.04,
+   "majmin": 83.43,
+   "triads": 77.26,
+   "sevenths": 57.2,
+   "tetrads": 52.57,
+   "mirex": 84.24
+  },
+  "sd_models": {
+   "root": 0.15,
+   "majmin": 0.2,
+   "triads": 0.19,
+   "sevenths": 1.26,
+   "tetrads": 1.1,
+   "mirex": 0.17
+  }
+ },
+ "rwcp|rules": {
+  "mean": {
+   "root": 84.29,
+   "majmin": 83.86,
+   "triads": 78.35,
+   "sevenths": 61.75,
+   "tetrads": 56.48,
+   "mirex": 84.78
+  },
+  "sd_models": {
+   "root": 0.23,
+   "majmin": 0.23,
+   "triads": 0.23,
+   "sevenths": 0.6,
+   "tetrads": 0.55,
+   "mirex": 0.17
+  }
+ }
+}

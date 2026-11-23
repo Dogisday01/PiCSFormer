@@ -1,0 +1,353 @@
+<!doctype html><html lang='ru'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Итоговая модель аккордов</title><style>
+:root { --bg:#f6f7f9; --fg:#18212b; --muted:#5b6674; --line:#d8dee6; --card:#ffffff; --accent:#2b55c4; --code:#eef1f6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#10151c; --fg:#e4e9ef; --muted:#9aa5b2; --line:#2b3542; --card:#161d26;
+  --accent:#88a7ff; --code:#1d2530; color-scheme: dark; } }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 "Segoe UI", system-ui, sans-serif; margin:0; padding:32px 16px 56px; }
+main { max-width: 1040px; margin: 0 auto; }
+h1 { font-size: 28px; line-height: 1.2; } h2 { font-size: 21px; margin-top: 36px; border-top: 1px solid var(--line); padding-top: 20px; }
+p, li { max-width: 80ch; }
+code { background: var(--code); border-radius: 4px; padding: 1px 4px; font: 12.5px Consolas, "Cascadia Mono", monospace; }
+pre { background: var(--code); border-radius: 8px; padding: 12px; overflow-x: auto; font: 12.5px/1.45 Consolas, "Cascadia Mono", monospace; }
+.scroll, .out-html { overflow-x: auto; }
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 13.5px; background: var(--card); margin: 8px 0; }
+th, td { border-bottom: 1px solid var(--line); padding: 6px 9px; text-align: left; vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12.5px; }
+details { margin: 10px 0 4px; } summary { cursor: pointer; color: var(--accent); font-size: 13px; }
+pre.out { background: transparent; border-left: 3px solid var(--line); border-radius: 0; padding: 4px 10px; }
+</style></head><body><main><h1>Распознавание аккордов в аудио: итоговая модель</h1>
+<p><b>Магистерская диссертация</b> «Development of Machine Learning Models for Musical Chord Recognition in Digital Audio». Нұрым Абзал, Astana IT University. Состояние на 20.11.2026.</p>
+<p>Это чистая копия проекта: только код итогового рецепта (пакет <code>chordrec</code>), веса 15 обученных моделей и сохранённые числа. Ноутбук показывает, где в коде каждый механизм и каждое правило распознавания, сколько каждый дал, итоговые результаты и распознаёт аккорды в аудиозаписи прямо здесь. Код проверен против исследовательского кода, на котором получены числа диссертации: те же веса дают те же ответы (<code>tests/check_against_research.py</code>, раздел 8).</p>
+<h2>Как читать числа</h2>
+<ul><li>Мера — взвешенная полнота символов аккордов (WCSR, <code>mir_eval</code>): доля времени записи с верным ответом на данном уровне, %.</li><li>Уровни: <b>root</b> — основной тон; <b>majmin</b> — мажор или минор (C, Cm); <b>triads</b> — трезвучие целиком (C, Cm, Cdim, Caug, Csus4); <b>sevenths</b> — мажор, минор и септаккорды C7, Cmaj7, Cm7; <b>tetrads</b> — все четырёхзвучия (Cdim7, Cm7b5 и др.); <b>MIREX</b> — совпадают хотя бы три звука аккорда.</li><li>«15 моделей» — 5 фолдов кросс-валидации по группам GuitarSet × 3 seeds. Разница рецептов — среднее 15 пар; «фолдов &gt; 0» — в скольких фолдах из 5 она положительна.</li><li>Наборы: <b>GuitarSet DEV</b> — 24 записи гитары; <b>BPSD-dev</b> без Op. 53 — 44 записи фортепиано (сонаты Бетховена); <b>JazzSAMBA-val</b> — 12 записей джазовых ансамблей; <b>RWC-P</b> — 100 записей поп-музыки.</li></ul>
+<details><summary>Код ячейки 1 (Python)</summary><pre>import importlib, inspect, json, os, sys, time
+from pathlib import Path
+import numpy as np
+import torch
+from IPython.display import HTML, display
+
+ROOT = Path.cwd()
+while not (ROOT / &quot;chordrec&quot;).exists() and ROOT != ROOT.parent:
+    ROOT = ROOT.parent
+os.chdir(ROOT)
+sys.path.insert(0, str(ROOT))
+import chordrec
+
+LEVELS = [&quot;root&quot;, &quot;majmin&quot;, &quot;triads&quot;, &quot;sevenths&quot;, &quot;tetrads&quot;, &quot;mirex&quot;]
+SEEDS, FOLDS = (42, 43, 44), range(5)
+
+
+def load(path):
+    return json.loads((ROOT / path).read_text(encoding=&quot;utf-8&quot;))
+
+
+def f2(v, sign=False, nd=2):
+    s = f&quot;{v:+.{nd}f}&quot; if sign else f&quot;{v:.{nd}f}&quot;
+    return s.replace(&quot;.&quot;, &quot;,&quot;).replace(&quot;-&quot;, &quot;−&quot;)
+
+
+def cube(get):
+    &quot;&quot;&quot;[5 фолдов, 3 seeds, 6 уровней]&quot;&quot;&quot;
+    return np.array([[[get(k, s)[q] for q in LEVELS] for s in SEEDS] for k in FOLDS])
+
+
+def paired(a, b):
+    &quot;&quot;&quot;b − a: среднее 15 пар и число фолдов из 5 с плюсом.&quot;&quot;&quot;
+    d = (b - a).mean(1)
+    return d.mean(0), (d &gt; 0).sum(0)
+
+
+def table(head, rows, note=None):
+    th = &quot;&quot;.join(f&quot;&lt;th&gt;{h}&lt;/th&gt;&quot; for h in head)
+    body = &quot;&quot;.join(&quot;&lt;tr&gt;&quot; + &quot;&quot;.join(f&quot;&lt;td&gt;{c}&lt;/td&gt;&quot; for c in r) + &quot;&lt;/tr&gt;&quot; for r in rows)
+    out = f&quot;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;{th}&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;{body}&lt;/tbody&gt;&lt;/table&gt;&quot;
+    if note:
+        out += f&quot;&lt;p style=&#x27;font-size:90%;opacity:.75&#x27;&gt;{note}&lt;/p&gt;&quot;
+    display(HTML(out))
+
+
+def where(obj):
+    &quot;&quot;&quot;Файл и строка начала функции или класса в пакете chordrec.&quot;&quot;&quot;
+    mod = inspect.getmodule(obj)
+    return f&quot;&lt;code&gt;chordrec/{mod.__name__.split(&#x27;.&#x27;)[-1]}.py:{inspect.getsourcelines(obj)[1]} {obj.__name__}&lt;/code&gt;&quot;
+
+
+def line_of(module, marker):
+    &quot;&quot;&quot;Строка модуля, где стоит поясняющий комментарий marker.&quot;&quot;&quot;
+    for i, line in enumerate(inspect.getsource(module).splitlines(), 1):
+        if marker in line:
+            return f&quot;&lt;code&gt;chordrec/{module.__name__.split(&#x27;.&#x27;)[-1]}.py:{i}&lt;/code&gt;&quot;
+    raise KeyError(marker)
+
+
+print(&quot;Пакет chordrec найден, PyTorch&quot;, torch.__version__)</pre></details>
+<pre class='out'>Пакет chordrec найден, PyTorch 2.9.1+cu128</pre>
+<h2>1. Структура проекта</h2>
+<div class='scroll'><table><thead><tr><th>Папка</th><th>Что там</th></tr></thead><tbody><tr><td><code>chordrec/</code></td><td>весь код итогового рецепта (таблица ниже строится из самих файлов)</td></tr><tr><td><code>weights/</code></td><td>15 моделей (<code>fold{k}/s{seed}.pt</code>), нормировка входа каждого фолда, штраф декодера каждой модели (<code>models.json</code>)</td></tr><tr><td><code>results/</code></td><td>сохранённые числа исследовательского проекта, на которых строятся таблицы; источник каждого файла — <code>results/SOURCES.json</code></td></tr><tr><td><code>notebooks/</code></td><td>этот ноутбук и его сборщик</td></tr><tr><td><code>tests/</code></td><td>проверка против исследовательского кода</td></tr><tr><td><code>tools/</code></td><td>упаковка весов и чисел из исследовательского проекта</td></tr></tbody></table></div>
+<details><summary>Код ячейки 2 (Python)</summary><pre>MODULES = [&quot;config&quot;, &quot;features&quot;, &quot;model&quot;, &quot;decode&quot;, &quot;rules&quot;, &quot;recognize&quot;, &quot;labels&quot;, &quot;losses&quot;, &quot;data&quot;, &quot;train&quot;, &quot;cv&quot;, &quot;evaluate&quot;]
+rows = []
+for name in MODULES:
+    mod = importlib.import_module(f&quot;chordrec.{name}&quot;)
+    src = inspect.getsource(mod).splitlines()
+    rows.append([f&quot;&lt;code&gt;chordrec/{name}.py&lt;/code&gt;&quot;, len(src), (mod.__doc__ or &quot;&quot;).strip().splitlines()[0]])
+rows.append([&quot;&lt;b&gt;всего&lt;/b&gt;&quot;, sum(r[1] for r in rows), &quot;&quot;])
+table([&quot;Файл&quot;, &quot;строк&quot;, &quot;Что делает&quot;], rows)</pre></details>
+<div class='out-html'><table><thead><tr><th>Файл</th><th>строк</th><th>Что делает</th></tr></thead><tbody><tr><td><code>chordrec/config.py</code></td><td>57</td><td>Константы итогового рецепта и пути к данным.</td></tr><tr><td><code>chordrec/features.py</code></td><td>80</td><td>Признаки: CQT-спектрограмма, окно бинов для сети, нормировка и правило громкости (iii).</td></tr><tr><td><code>chordrec/model.py</code></td><td>104</td><td>Сеть итогового рецепта: свёрточная часть → 4 × (Transformer с RoPE + свёрточный модуль) → пять выходов.</td></tr><tr><td><code>chordrec/decode.py</code></td><td>99</td><td>Декодеры: Витерби со штрафом смены аккорда; выход «мажор/минор»; «набор высот» по 180 шаблонам (12 корней × 15 качеств).</td></tr><tr><td><code>chordrec/rules.py</code></td><td>187</td><td>Пять правил распознавания поверх обученной модели (без переобучения).</td></tr><tr><td><code>chordrec/recognize.py</code></td><td>54</td><td>Распознать аккорды в аудиофайле итоговой моделью со всеми пятью правилами.</td></tr><tr><td><code>chordrec/labels.py</code></td><td>156</td><td>Цели обучения по кадрам: «мажор/минор» и корень, «набор высот» и бас, ноты; их сдвиг вместе с окном CQT.</td></tr><tr><td><code>chordrec/losses.py</code></td><td>92</td><td>Потери итогового рецепта: сглаживание по консонансу, согласие транспозиций, дистилляция ансамбля.</td></tr><tr><td><code>chordrec/data.py</code></td><td>111</td><td>Данные обучения итогового рецепта: GuitarSet (разбиение по фолду), синтетика AAM, три пула реального звука и ноты MAESTRO.</td></tr><tr><td><code>chordrec/train.py</code></td><td>218</td><td>Обучение одной модели итогового рецепта (один фолд, один seed).</td></tr><tr><td><code>chordrec/cv.py</code></td><td>32</td><td>Кросс-валидация итогового рецепта: 5 фолдов по группам GuitarSet × 3 seeds = 15 моделей.</td></tr><tr><td><code>chordrec/evaluate.py</code></td><td>35</td><td>Оценка: взвешенная полнота символов аккордов (WCSR, mir_eval) по уровням — доля времени с верным ответом, %.</td></tr><tr><td><b>всего</b></td><td>1225</td><td></td></tr></tbody></table></div>
+<h2>2. Как устроено распознавание</h2>
+<ol><li><b>Признаки.</b> CQT: 22 050 Гц, шаг 512 (23 мс), 36 бинов на октаву, 288 бинов от F#0, log(1 + 100·|X|); сеть читает 252 бина, запас ±6 полутонов нужен для транспозиций.</li><li><b>Сеть.</b> Свёрточная часть, затем 4 блока «Transformer с вращательными позициями (RoPE) + свёрточный модуль», ширина 192.</li><li><b>Пять выходов по кадрам:</b> мажор/минор (25), «набор высот» (12 сигмоид: звучит ли класс высоты как звук аккорда), бас (13), корень (13), ноты (88 клавиш; только при обучении).</li><li><b>Декодер.</b> Витерби по 180 шаблонам (12 корней × 15 качеств) и «нет аккорда»; обращение — если бас звук аккорда, но не корень.</li><li><b>Пять правил распознавания</b> поверх модели (раздел 5).</li></ol>
+<details><summary>Код ячейки 3 (Python)</summary><pre>from chordrec import decode, features, model as M, rules
+d = load(&quot;results/models/fold0_s42.json&quot;)
+table([&quot;Часть&quot;, &quot;Где в коде&quot;], [
+    [&quot;Признаки CQT&quot;, where(features.cqt_from_signal)],
+    [&quot;Окно бинов и нормировка входа&quot;, where(features.crop_bins) + &quot; · &quot; + where(features.norm_stats)],
+    [&quot;Сеть целиком&quot;, where(M.ChordNet)],
+    [&quot;Блок Transformer с RoPE&quot;, where(M.Block)],
+    [&quot;Свёрточный модуль&quot;, where(M.ConvModule)],
+    [&quot;Витерби&quot;, where(decode.viterbi)],
+    [&quot;Декодер «мажор/минор»&quot;, where(decode.decode_flat)],
+    [&quot;Оценка 180 шаблонов&quot;, where(decode.pcs_emissions)],
+    [&quot;Декодер полных меток&quot;, where(decode.decode_pcs)],
+], note=f&quot;Параметров в одной модели: {d[&#x27;params&#x27;]:,}&quot;.replace(&quot;,&quot;, &quot; &quot;))</pre></details>
+<div class='out-html'><table><thead><tr><th>Часть</th><th>Где в коде</th></tr></thead><tbody><tr><td>Признаки CQT</td><td><code>chordrec/features.py:10 cqt_from_signal</code></td></tr><tr><td>Окно бинов и нормировка входа</td><td><code>chordrec/features.py:39 crop_bins</code> · <code>chordrec/features.py:45 norm_stats</code></td></tr><tr><td>Сеть целиком</td><td><code>chordrec/model.py:70 ChordNet</code></td></tr><tr><td>Блок Transformer с RoPE</td><td><code>chordrec/model.py:42 Block</code></td></tr><tr><td>Свёрточный модуль</td><td><code>chordrec/model.py:24 ConvModule</code></td></tr><tr><td>Витерби</td><td><code>chordrec/decode.py:25 viterbi</code></td></tr><tr><td>Декодер «мажор/минор»</td><td><code>chordrec/decode.py:55 decode_flat</code></td></tr><tr><td>Оценка 180 шаблонов</td><td><code>chordrec/decode.py:62 pcs_emissions</code></td></tr><tr><td>Декодер полных меток</td><td><code>chordrec/decode.py:81 decode_pcs</code></td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Параметров в одной модели: 2 455 447</p></div>
+<h2>3. Механизмы обучения: где в коде и что дали</h2>
+<p>Сначала — основа рецепта (ранние шаги; числа из отчётов того времени, тогда распознавание шло записью целиком). Затем — шаги итогового рецепта, пересчитанные здесь из сохранённых файлов: 15 моделей шага против 15 моделей предыдущего, BPSD-dev и JazzSAMBA-val окнами 10 с, без правил распознавания.</p>
+<p>Каждый шаг принимался по правилу, записанному до запуска: выигрыш — BPSD sevenths или majmin ≥ +1,0 (4 из 5 фолдов), устойчивая прибавка септим BPSD ≥ +0,3 (4/5) или гитара ≥ +0,3; без вреда — majmin и sevenths нигде не падают больше чем на 0,5. Решения — только по валидации; тестовые наборы для решений не используются.</p>
+<details><summary>Код ячейки 4 (Python)</summary><pre>from chordrec import data, labels, losses, train as T
+early = [
+    (&quot;Транспозиционная аугментация: окно CQT сдвигается на −5…+6 полутонов, метки — так же&quot;,
+     line_of(T, &quot;# транспозиционная аугментация&quot;) + &quot; · &quot; + where(labels.shift_targets) + &quot; · &quot; + where(labels.shift_pcs), &quot;GuitarSet majmin +12,9 — главный механизм&quot;),
+    (&quot;Синтетика AAM: 600 синтезированных треков, доля 0,10&quot;, where(data.aam) + &quot; · &quot; + where(data.aam_features), &quot;MusicNet majmin +11 на негитарных инструментах&quot;),
+    (&quot;Пул MusicNet: классика, аккорды и септимы из нот, доля 0,15&quot;, where(data.pool), &quot;BPSD majmin 43,1 → 56,3 (+13,3, 5/5)&quot;),
+    (&quot;Пул рояля Disklavier (MAPS, SMD, KRAISLER), доля 0,10&quot;, where(data.pool), &quot;BPSD majmin +5,25 (5/5)&quot;),
+    (&quot;Выход «набор высот» и декодер по 180 шаблонам&quot;, where(labels.pcs_targets) + &quot; · &quot; + where(decode.pcs_emissions), &quot;BPSD sevenths +4,93 (5/5)&quot;),
+    (&quot;Джазовые записи JazzSAMBA, доля 0,15&quot;, where(data.pool), &quot;джаз sevenths +11; BPSD majmin +1,0&quot;),
+    (&quot;Уточнённые метки рояля&quot;, &quot;манифест данных (подготовка — в исследовательском проекте)&quot;, &quot;BPSD около +2 по всем уровням (sevenths +2,0, 5/5)&quot;),
+    (&quot;Голова корня рядом с «набором высот» (вес 2 в декодере)&quot;, where(decode.pcs_emissions), &quot;гитара root +2,49 (5/5)&quot;),
+]
+table([&quot;Механизм&quot;, &quot;Где в коде&quot;, &quot;Что дал (по отчёту)&quot;], [list(r) for r in early])
+
+STEPS = [
+    (&quot;Исходный рецепт&quot;, &quot;00_base&quot;, &quot;&quot;),
+    (&quot;Вращательные позиции (RoPE)&quot;, &quot;01_rope&quot;, where(M.Block)),
+    (&quot;Последняя эпоха вместо выбора&quot;, &quot;02_last_epoch&quot;, line_of(T, &quot;# веса последней эпохи&quot;)),
+    (&quot;Голова нот (88 клавиш)&quot;, &quot;03_note_head&quot;, where(labels.note_targets) + &quot; · &quot; + line_of(T, &quot;# ноты сдвигаются с окном&quot;)),
+    (&quot;Самообучение, круг 1&quot;, &quot;04_self_training&quot;, &quot;манифест MusicNet с подписями учителя&quot;),
+    (&quot;Круг 2 + согласие транспозиций&quot;, &quot;05_round2_consistency&quot;, where(losses.consistency_loss) + &quot; · &quot; + line_of(T, &quot;# вторая копия отрезка&quot;)),
+    (&quot;Сглаживание по консонансу&quot;, &quot;06_consonance&quot;, where(losses.consonance_ce)),
+    (&quot;Дистилляция ансамбля&quot;, &quot;07_distillation&quot;, where(losses.teacher_targets) + &quot; · &quot; + where(losses.distillation_loss)),
+    (&quot;Бас из нот&quot;, &quot;08_bass_from_notes&quot;, where(labels.bass_from_notes)),
+    (&quot;Ноты MAESTRO в голове нот&quot;, &quot;09_maestro_notes&quot;, where(data.maestro_notes)),
+]
+LAST = STEPS[-1][0]  # итоговый (замороженный) рецепт
+win = {}
+for name, f, _ in STEPS:
+    w = load(f&quot;results/path/{f}.json&quot;)
+    win[name] = {ds: cube(lambda k, s: w[f&quot;fold{k}|s{s}|{ds}|win10s&quot;]) for ds in (&quot;bpsd&quot;, &quot;jazz&quot;)}
+Mi, Si = LEVELS.index(&quot;majmin&quot;), LEVELS.index(&quot;sevenths&quot;)
+rows = []
+for i, (name, _, code_ref) in enumerate(STEPS):
+    b, j = win[name][&quot;bpsd&quot;], win[name][&quot;jazz&quot;]
+    if i == 0:
+        rows.append([name, &quot;&quot;, f2(b[..., Mi].mean()), f2(b[..., Si].mean()), f2(j[..., Si].mean()), f2(b[..., Si].mean())])
+        continue
+    pb, nb = paired(win[STEPS[i - 1][0]][&quot;bpsd&quot;], b)
+    pj, _ = paired(win[STEPS[i - 1][0]][&quot;jazz&quot;], j)
+    rows.append([name, code_ref, f&quot;{f2(pb[Mi], True)} ({nb[Mi]})&quot;, f&quot;{f2(pb[Si], True)} ({nb[Si]})&quot;, f2(pj[Si], True), f2(b[..., Si].mean())])
+table([&quot;Шаг&quot;, &quot;Где в коде&quot;, &quot;BPSD majmin&quot;, &quot;BPSD sevenths&quot;, &quot;Джаз sevenths&quot;, &quot;BPSD sevenths, итого&quot;], rows,
+      note=&quot;Разница с предыдущей строкой, в скобках — фолдов &gt; 0 из 5; первая строка — абсолютные значения. &quot;
+           &quot;Круг 2 + согласие — ниже правила, принят решением автора (все шесть уровней BPSD выросли в 5/5); консонанс и дистилляция — &quot;
+           &quot;по дополнению о септимах; бас из нот — по гитаре (balanced +0,59, 5/5); ноты MAESTRO (с дистилляцией) — по правилу.&quot;)</pre></details>
+<div class='out-html'><table><thead><tr><th>Механизм</th><th>Где в коде</th><th>Что дал (по отчёту)</th></tr></thead><tbody><tr><td>Транспозиционная аугментация: окно CQT сдвигается на −5…+6 полутонов, метки — так же</td><td><code>chordrec/train.py:110</code> · <code>chordrec/labels.py:53 shift_targets</code> · <code>chordrec/labels.py:90 shift_pcs</code></td><td>GuitarSet majmin +12,9 — главный механизм</td></tr><tr><td>Синтетика AAM: 600 синтезированных треков, доля 0,10</td><td><code>chordrec/data.py:66 aam</code> · <code>chordrec/data.py:25 aam_features</code></td><td>MusicNet majmin +11 на негитарных инструментах</td></tr><tr><td>Пул MusicNet: классика, аккорды и септимы из нот, доля 0,15</td><td><code>chordrec/data.py:77 pool</code></td><td>BPSD majmin 43,1 → 56,3 (+13,3, 5/5)</td></tr><tr><td>Пул рояля Disklavier (MAPS, SMD, KRAISLER), доля 0,10</td><td><code>chordrec/data.py:77 pool</code></td><td>BPSD majmin +5,25 (5/5)</td></tr><tr><td>Выход «набор высот» и декодер по 180 шаблонам</td><td><code>chordrec/labels.py:65 pcs_targets</code> · <code>chordrec/decode.py:62 pcs_emissions</code></td><td>BPSD sevenths +4,93 (5/5)</td></tr><tr><td>Джазовые записи JazzSAMBA, доля 0,15</td><td><code>chordrec/data.py:77 pool</code></td><td>джаз sevenths +11; BPSD majmin +1,0</td></tr><tr><td>Уточнённые метки рояля</td><td>манифест данных (подготовка — в исследовательском проекте)</td><td>BPSD около +2 по всем уровням (sevenths +2,0, 5/5)</td></tr><tr><td>Голова корня рядом с «набором высот» (вес 2 в декодере)</td><td><code>chordrec/decode.py:62 pcs_emissions</code></td><td>гитара root +2,49 (5/5)</td></tr></tbody></table></div>
+<div class='out-html'><table><thead><tr><th>Шаг</th><th>Где в коде</th><th>BPSD majmin</th><th>BPSD sevenths</th><th>Джаз sevenths</th><th>BPSD sevenths, итого</th></tr></thead><tbody><tr><td>Исходный рецепт</td><td></td><td>70,01</td><td>54,39</td><td>37,86</td><td>54,39</td></tr><tr><td>Вращательные позиции (RoPE)</td><td><code>chordrec/model.py:42 Block</code></td><td>+0,42 (3)</td><td>+1,03 (4)</td><td>+0,46</td><td>55,42</td></tr><tr><td>Последняя эпоха вместо выбора</td><td><code>chordrec/train.py:186</code></td><td>+0,90 (5)</td><td>+0,84 (4)</td><td>+2,00</td><td>56,26</td></tr><tr><td>Голова нот (88 клавиш)</td><td><code>chordrec/labels.py:111 note_targets</code> · <code>chordrec/train.py:120</code></td><td>+0,46 (5)</td><td>+0,68 (4)</td><td>+0,47</td><td>56,94</td></tr><tr><td>Самообучение, круг 1</td><td>манифест MusicNet с подписями учителя</td><td>+0,50 (5)</td><td>+1,38 (5)</td><td>+0,42</td><td>58,32</td></tr><tr><td>Круг 2 + согласие транспозиций</td><td><code>chordrec/losses.py:34 consistency_loss</code> · <code>chordrec/train.py:138</code></td><td>+0,90 (5)</td><td>+0,71 (5)</td><td>−0,63</td><td>59,03</td></tr><tr><td>Сглаживание по консонансу</td><td><code>chordrec/losses.py:12 consonance_ce</code></td><td>+0,07 (3)</td><td>+0,31 (5)</td><td>+0,85</td><td>59,34</td></tr><tr><td>Дистилляция ансамбля</td><td><code>chordrec/losses.py:64 teacher_targets</code> · <code>chordrec/losses.py:86 distillation_loss</code></td><td>+0,37 (5)</td><td>+0,53 (5)</td><td>+0,70</td><td>59,87</td></tr><tr><td>Бас из нот</td><td><code>chordrec/labels.py:134 bass_from_notes</code></td><td>+0,09 (5)</td><td>+0,24 (5)</td><td>+0,52</td><td>60,11</td></tr><tr><td>Ноты MAESTRO в голове нот</td><td><code>chordrec/data.py:93 maestro_notes</code></td><td>+0,12 (5)</td><td>+0,68 (5)</td><td>+0,43</td><td>60,78</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Разница с предыдущей строкой, в скобках — фолдов > 0 из 5; первая строка — абсолютные значения. Круг 2 + согласие — ниже правила, принят решением автора (все шесть уровней BPSD выросли в 5/5); консонанс и дистилляция — по дополнению о септимах; бас из нот — по гитаре (balanced +0,59, 5/5); ноты MAESTRO (с дистилляцией) — по правилу.</p></div>
+<h2>4. Обучение</h2>
+<p>Одна модель — <code>python -m chordrec.train --fold 0 --seed 42 --out runs/final</code>; все 15 — <code>python -m chordrec.cv --out runs/final</code>. Рецепт: 60 эпох × 100 шагов, батч 16 отрезков по 10 с, AdamW (lr 0,001, weight decay 0,01), OneCycle, веса последней эпохи. Доли в батче: GuitarSet 0,45 · синтетика AAM 0,10 · MusicNet 0,15 · рояль 0,10 · JazzSAMBA 0,15 · ноты MAESTRO 0,05 (только голова нот). Обучение одной модели — около 35 минут на RTX 4060 Laptop плюс модели-учителя; данные (десятки гигабайт) читаются из исследовательского проекта, часть наборов по лицензии распространять нельзя.</p>
+<details><summary>Код ячейки 5 (Python)</summary><pre>table([&quot;Слагаемое потери&quot;, &quot;Вес&quot;, &quot;Где в коде&quot;], [
+    [&quot;«Мажор/минор»: CE&quot;, &quot;1&quot;, line_of(T, &#x27;ce(o[&quot;flat&quot;]&#x27;)],
+    [&quot;Корень и бас: CE со сглаживанием по консонансу, α = 0,1&quot;, &quot;1 + 1&quot;, where(losses.consonance_ce)],
+    [&quot;«Набор высот»: BCE по 12 классам&quot;, &quot;12&quot;, line_of(T, &#x27;o[&quot;pc&quot;].float()[m]&#x27;)],
+    [&quot;Ноты: BCE по 88 клавишам&quot;, &quot;12&quot;, line_of(T, &#x27;o[&quot;note&quot;].float()[m]&#x27;)],
+    [&quot;Дистилляция: 3 модели учителя × 3 сдвига&quot;, &quot;1&quot;, where(losses.distillation_loss)],
+    [&quot;Согласие двух транспозиций отрезка&quot;, &quot;0,5&quot;, where(losses.consistency_loss)],
+])</pre></details>
+<div class='out-html'><table><thead><tr><th>Слагаемое потери</th><th>Вес</th><th>Где в коде</th></tr></thead><tbody><tr><td>«Мажор/минор»: CE</td><td>1</td><td><code>chordrec/train.py:149</code></td></tr><tr><td>Корень и бас: CE со сглаживанием по консонансу, α = 0,1</td><td>1 + 1</td><td><code>chordrec/losses.py:12 consonance_ce</code></td></tr><tr><td>«Набор высот»: BCE по 12 классам</td><td>12</td><td><code>chordrec/train.py:154</code></td></tr><tr><td>Ноты: BCE по 88 клавишам</td><td>12</td><td><code>chordrec/train.py:161</code></td></tr><tr><td>Дистилляция: 3 модели учителя × 3 сдвига</td><td>1</td><td><code>chordrec/losses.py:86 distillation_loss</code></td></tr><tr><td>Согласие двух транспозиций отрезка</td><td>0,5</td><td><code>chordrec/losses.py:34 consistency_loss</code></td></tr></tbody></table></div>
+<h2>5. Пять правил распознавания (без переобучения)</h2>
+<details><summary>Код ячейки 6 (Python)</summary><pre>table([&quot;Правило&quot;, &quot;Что делает&quot;, &quot;Где в коде&quot;], [
+    [&quot;(i) K = 3&quot;, &quot;вход сдвигается на −1, 0, +1 полутон, ответы возвращаются к исходной тональности и усредняются&quot;, where(rules.unshift) + &quot; · &quot; + where(rules.recognize)],
+    [&quot;(ii) штраф 96&quot;, &quot;Витерби реже меняет аккорд на коротких всплесках&quot;, &quot;&lt;code&gt;rules.PENALTY&lt;/code&gt; · &quot; + where(decode.viterbi)],
+    [&quot;(iii) громкость&quot;, &quot;окно 10 с громче или тише [−12,2; +8,5] дБ подтягивается к границе&quot;, where(features.clamp_level)],
+    [&quot;(iv) тональность → функция&quot;, &quot;первый проход → тональность по своим аккордам → второй проход с прибавкой β·W&quot;, where(rules.frame_keys) + &quot; · &quot; + where(rules.decode_with_key)],
+    [&quot;(v) перекрывающиеся окна&quot;, &quot;окна 10 с с шагом 2 с; кадру — окно, где он ближе к центру&quot;, where(rules.center_probs)],
+])
+ladder, summ = load(&quot;results/rules/ladder.json&quot;), load(&quot;results/rules/final_rows_dev_summary.json&quot;)
+SETS = [(&quot;bpsd&quot;, &quot;BPSD&quot;), (&quot;rwcp&quot;, &quot;RWC-P&quot;), (&quot;jazz&quot;, &quot;Джаз&quot;), (&quot;guitar&quot;, &quot;Гитара&quot;)]
+LADDER = [(&quot;Одна модель, окна 10 с&quot;, &quot;single&quot;), (&quot;+ (i) K = 3&quot;, &quot;i_K3&quot;), (&quot;+ (ii) штраф 96&quot;, &quot;ii_pen96&quot;),
+          (&quot;+ (iii) громкость&quot;, &quot;iii_clamp&quot;), (&quot;+ (iv) тональность → функция&quot;, &quot;iv_key&quot;), (&quot;+ (v) перекрывающиеся окна&quot;, &quot;v_overlap&quot;)]
+rows = []
+for i, (n, key) in enumerate(LADDER):
+    cells = [n]
+    for ds, _ in SETS:
+        v = ladder[f&quot;{ds}|{key}&quot;][&quot;sevenths&quot;]
+        cells.append(f2(v) if i == 0 else f&quot;{f2(v)} ({f2(ladder[f&#x27;{ds}|{key}|delta&#x27;][&#x27;sevenths&#x27;], True)})&quot;)
+    rows.append(cells)
+table([&quot;Распознавание&quot;, &quot;BPSD&quot;, &quot;RWC-P&quot;, &quot;Джаз&quot;, &quot;Гитара&quot;], rows,
+      note=&quot;sevenths, среднее 15 моделей итогового рецепта; правила добавляются по одному; в скобках — прибавка к предыдущей строке. &quot;
+           &quot;Гитара — отложенные группы кросс-валидации. Цена: правило (i) — распознавание × 3, правило (v) — ещё × 5.&quot;)</pre></details>
+<div class='out-html'><table><thead><tr><th>Правило</th><th>Что делает</th><th>Где в коде</th></tr></thead><tbody><tr><td>(i) K = 3</td><td>вход сдвигается на −1, 0, +1 полутон, ответы возвращаются к исходной тональности и усредняются</td><td><code>chordrec/rules.py:56 unshift</code> · <code>chordrec/rules.py:169 recognize</code></td></tr><tr><td>(ii) штраф 96</td><td>Витерби реже меняет аккорд на коротких всплесках</td><td><code>rules.PENALTY</code> · <code>chordrec/decode.py:25 viterbi</code></td></tr><tr><td>(iii) громкость</td><td>окно 10 с громче или тише [−12,2; +8,5] дБ подтягивается к границе</td><td><code>chordrec/features.py:71 clamp_level</code></td></tr><tr><td>(iv) тональность → функция</td><td>первый проход → тональность по своим аккордам → второй проход с прибавкой β·W</td><td><code>chordrec/rules.py:151 frame_keys</code> · <code>chordrec/rules.py:159 decode_with_key</code></td></tr><tr><td>(v) перекрывающиеся окна</td><td>окна 10 с с шагом 2 с; кадру — окно, где он ближе к центру</td><td><code>chordrec/rules.py:38 center_probs</code></td></tr></tbody></table></div>
+<div class='out-html'><table><thead><tr><th>Распознавание</th><th>BPSD</th><th>RWC-P</th><th>Джаз</th><th>Гитара</th></tr></thead><tbody><tr><td>Одна модель, окна 10 с</td><td>60,78</td><td>57,20</td><td>43,07</td><td>87,34</td></tr><tr><td>+ (i) K = 3</td><td>61,34 (+0,55)</td><td>58,05 (+0,85)</td><td>43,42 (+0,35)</td><td>88,01 (+0,67)</td></tr><tr><td>+ (ii) штраф 96</td><td>61,56 (+0,22)</td><td>58,40 (+0,36)</td><td>42,94 (−0,48)</td><td>89,28 (+1,27)</td></tr><tr><td>+ (iii) громкость</td><td>61,62 (+0,07)</td><td>60,71 (+2,31)</td><td>42,95 (+0,01)</td><td>89,30 (+0,01)</td></tr><tr><td>+ (iv) тональность → функция</td><td>62,39 (+0,77)</td><td>61,92 (+1,21)</td><td>43,72 (+0,77)</td><td>88,91 (−0,38)</td></tr><tr><td>+ (v) перекрывающиеся окна</td><td>62,65 (+0,25)</td><td>61,75 (−0,18)</td><td>44,21 (+0,49)</td><td>89,61 (+0,70)</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>sevenths, среднее 15 моделей итогового рецепта; правила добавляются по одному; в скобках — прибавка к предыдущей строке. Гитара — отложенные группы кросс-валидации. Цена: правило (i) — распознавание × 3, правило (v) — ещё × 5.</p></div>
+<h2>6. Итог и сравнение с открытыми системами</h2>
+<p>Открытые системы — опубликованные веса (MIT) и их собственный код, без дообучения. Все три обучались на RWC-Pop, поэтому на RWC-P не сравниваются. Обучающие части GuitarSet и JazzSAMBA входят в наши данные: DEV и джаз для нас свой домен, для открытых систем — нет. BPSD-final и JazzSAMBA-test открыты один раз после заморозки рецепта (раздел 10); 95 % бутстреп-интервалы разниц — в <code>results/final/report_*.json</code> и в статье.</p>
+<details><summary>Код ячейки 7 (Python)</summary><pre>OPEN = [(&quot;Chord-CNN-LSTM (2019)&quot;, &quot;chord_cnn_lstm&quot;), (&quot;BTC (2019)&quot;, &quot;btc&quot;), (&quot;ChordMini (2026)&quot;, &quot;chordmini&quot;)]
+openv = {key: load(f&quot;results/open_systems/{key}.json&quot;) for _, key in OPEN}
+
+
+def dev_ours():
+    vals = {q: [] for q in LEVELS}
+    for k in FOLDS:
+        for s in SEEDS:
+            lv = load(f&quot;results/models/fold{k}_s{s}.json&quot;)[&quot;levels&quot;]
+            for q in LEVELS:
+                src = lv[f&quot;CV-Rmnds-s{s}/flat/viterbi&quot; if q == &quot;majmin&quot; else f&quot;CV-Rmnds-s{s}/struct/viterbi&quot;][&quot;comp&quot;][q]
+                vals[q].append(src[&quot;wcsr&quot;] if isinstance(src, dict) else src)
+    return [float(np.mean(vals[q])) for q in LEVELS]
+
+
+def five_rules(ds):
+    return [summ[f&quot;{ds}|rules&quot;][&quot;mean&quot;][q] for q in LEVELS]
+
+
+rows = []
+for title, key, ours, ours_r in [(&quot;GuitarSet DEV (24)&quot;, &quot;dev&quot;, dev_ours(), None),
+                                 (&quot;BPSD-dev без Op. 53 (44)&quot;, &quot;bpsd&quot;, list(win[LAST][&quot;bpsd&quot;].mean((0, 1))), five_rules(&quot;bpsd&quot;)),
+                                 (&quot;JazzSAMBA-val (12)&quot;, &quot;jazz&quot;, list(win[LAST][&quot;jazz&quot;].mean((0, 1))), five_rules(&quot;jazz&quot;))]:
+    rows.append([f&quot;&lt;b&gt;{title}&lt;/b&gt;&quot;] + [&quot;&quot;] * 6)
+    cand = [[openv[k][key][&quot;levels&quot;][q] for q in LEVELS] for _, k in OPEN] + [ours] + ([ours_r] if ours_r else [])
+    names = [n for n, _ in OPEN] + [&quot;наша, одна модель&quot;] + ([&quot;наша + 5 правил&quot;] if ours_r else [])
+    best = np.max(np.array(cand), 0)
+    for n, v in zip(names, cand):
+        rows.append([n] + [f&quot;&lt;b&gt;{f2(x)}&lt;/b&gt;&quot; if abs(x - b) &lt; 1e-9 else f2(x) for x, b in zip(v, best)])
+rows.append([&quot;&lt;b&gt;Только наша система&lt;/b&gt;&quot;] + [&quot;&quot;] * 6)
+rows.append([&quot;RWC-P (100), наша + 5 правил&quot;] + [f2(x) for x in five_rules(&quot;rwcp&quot;)])
+rows.append([&quot;GuitarSet, отложенные группы, наша + 5 правил&quot;] + [f2(x) for x in five_rules(&quot;guitar&quot;)])
+table([&quot;Набор и система&quot;] + LEVELS, rows, note=&quot;Жирным — лучшее в столбце внутри набора. Наша система — среднее 15 моделей.&quot;)</pre></details>
+<div class='out-html'><table><thead><tr><th>Набор и система</th><th>root</th><th>majmin</th><th>triads</th><th>sevenths</th><th>tetrads</th><th>mirex</th></tr></thead><tbody><tr><td><b>GuitarSet DEV (24)</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Chord-CNN-LSTM (2019)</td><td>90,33</td><td>91,68</td><td>58,40</td><td>84,29</td><td>51,38</td><td>87,38</td></tr><tr><td>BTC (2019)</td><td>83,77</td><td>87,21</td><td>54,49</td><td>78,45</td><td>46,39</td><td>80,14</td></tr><tr><td>ChordMini (2026)</td><td>84,86</td><td>87,68</td><td>54,69</td><td>80,94</td><td>48,04</td><td>82,58</td></tr><tr><td>наша, одна модель</td><td><b>93,11</b></td><td><b>93,73</b></td><td><b>61,55</b></td><td><b>90,07</b></td><td><b>57,40</b></td><td><b>90,81</b></td></tr><tr><td><b>BPSD-dev без Op. 53 (44)</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Chord-CNN-LSTM (2019)</td><td>53,27</td><td>58,66</td><td>51,53</td><td>47,30</td><td>41,02</td><td>55,26</td></tr><tr><td>BTC (2019)</td><td>63,01</td><td>68,10</td><td>60,59</td><td>59,29</td><td>52,69</td><td>68,19</td></tr><tr><td>ChordMini (2026)</td><td>62,97</td><td>67,76</td><td>60,49</td><td>58,90</td><td>52,29</td><td>68,53</td></tr><tr><td>наша, одна модель</td><td>66,87</td><td>73,85</td><td>63,45</td><td>60,78</td><td>53,47</td><td>71,04</td></tr><tr><td>наша + 5 правил</td><td><b>67,40</b></td><td><b>74,60</b></td><td><b>65,23</b></td><td><b>62,65</b></td><td><b>55,29</b></td><td><b>71,62</b></td></tr><tr><td><b>JazzSAMBA-val (12)</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Chord-CNN-LSTM (2019)</td><td>66,08</td><td>60,32</td><td>58,01</td><td>41,68</td><td>36,29</td><td>68,13</td></tr><tr><td>BTC (2019)</td><td>57,40</td><td>51,73</td><td>49,60</td><td>27,86</td><td>24,41</td><td>58,65</td></tr><tr><td>ChordMini (2026)</td><td>59,51</td><td>53,20</td><td>51,21</td><td>33,26</td><td>29,27</td><td>60,72</td></tr><tr><td>наша, одна модель</td><td>66,50</td><td>61,82</td><td>57,49</td><td>43,07</td><td>38,57</td><td><b>70,82</b></td></tr><tr><td>наша + 5 правил</td><td><b>66,71</b></td><td><b>62,92</b></td><td><b>59,37</b></td><td><b>44,21</b></td><td><b>39,39</b></td><td>69,88</td></tr><tr><td><b>Только наша система</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>RWC-P (100), наша + 5 правил</td><td>84,29</td><td>83,86</td><td>78,35</td><td>61,75</td><td>56,48</td><td>84,78</td></tr><tr><td>GuitarSet, отложенные группы, наша + 5 правил</td><td>87,95</td><td>92,15</td><td>61,69</td><td>89,61</td><td>57,81</td><td>88,63</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Жирным — лучшее в столбце внутри набора. Наша система — среднее 15 моделей.</p></div>
+<h2>7. Согласованность по тональностям (главный вывод статьи)</h2>
+<p>Звук 11 записей BPSD-dev (по одной на сонату) сдвигается на −4, −1, +1, +4 полутона; ответ сдвигается обратно и сравнивается с ответом без сдвига. Наша система — итоговый рецепт без правил, пять моделей (по одной на фолд).</p>
+<details><summary>Код ячейки 8 (Python)</summary><pre>shift, vote, singles = load(&quot;results/consistency/audio_shift.json&quot;), load(&quot;results/consistency/vote.json&quot;), load(&quot;results/consistency/singles.json&quot;)
+
+
+def dis(key):
+    a = shift[key][&quot;audio&quot;]
+    return [float(np.mean([a[s][i] for s in a])) for i in (0, 1)]
+
+
+rows = []
+for name, key in [(&quot;BTC&quot;, &quot;btc_teacher&quot;), (&quot;ChordMini, ученик BTC&quot;, &quot;btc_cl&quot;), (&quot;ChordMini, ChordNet&quot;, &quot;chordnet&quot;)]:
+    c, e = dis(key)
+    rows.append([name, 1, f2(c, nd=1), f2(e, nd=1), f2(vote[key][&quot;K1&quot;][&quot;sevenths&quot;]), f2(vote[key][&quot;K5&quot;][&quot;sevenths&quot;]),
+                 f2(vote[key][&quot;K5&quot;][&quot;sevenths&quot;] - vote[key][&quot;K1&quot;][&quot;sevenths&quot;], True)])
+c, e = singles[&quot;cnnlstm_single_mean&quot;]
+rows.append([&quot;Chord-CNN-LSTM, одна модель&quot;, 1, f2(c, nd=1), f2(e, nd=1), f2(singles[&quot;levels_s0&quot;][&quot;cnnlstm_single_mean&quot;][&quot;sevenths&quot;]), &quot;—&quot;, &quot;—&quot;])
+c, e = dis(&quot;cnnlstm&quot;)
+rows.append([&quot;Chord-CNN-LSTM, ансамбль 5 моделей&quot;, 5, f2(c, nd=1), f2(e, nd=1), f2(vote[&quot;cnnlstm&quot;][&quot;K1&quot;][&quot;sevenths&quot;]),
+             f2(vote[&quot;cnnlstm&quot;][&quot;K5&quot;][&quot;sevenths&quot;]), f2(vote[&quot;cnnlstm&quot;][&quot;K5&quot;][&quot;sevenths&quot;] - vote[&quot;cnnlstm&quot;][&quot;K1&quot;][&quot;sevenths&quot;], True)])
+ours = load(&quot;results/consistency/ours_audio_shift.json&quot;)  # итоговый рецепт CV-Rmnds
+c, e = ours[&quot;single_D&quot;]
+k1, k5 = ours[&quot;single_levels&quot;][&quot;K1&quot;][&quot;sevenths&quot;], ours[&quot;single_levels&quot;][&quot;K5&quot;][&quot;sevenths&quot;]
+rows.append([&quot;наша, одна модель&quot;, 1, f2(c, nd=1), f2(e, nd=1), f2(k1), f2(k5), f2(k5 - k1, True)])
+c, e = ours[&quot;ensemble_D&quot;]
+rows.append([&quot;наша, ансамбль 5 моделей&quot;, 5, f2(c, nd=1), f2(e, nd=1), f2(ours[&quot;ensemble_levels&quot;][&quot;K1&quot;][&quot;sevenths&quot;]), &quot;—&quot;, &quot;—&quot;])
+table([&quot;Система&quot;, &quot;моделей&quot;, &quot;меняет ответ, грубо, %&quot;, &quot;точно, %&quot;, &quot;sevenths&quot;, &quot;голосование 5 сдвигов&quot;, &quot;прирост&quot;], rows,
+      note=&quot;«Грубо» — основной тон и род аккорда, «точно» — полная метка; среднее по четырём сдвигам. Выборка мала (11 записей), числа ориентировочные.&quot;)</pre></details>
+<div class='out-html'><table><thead><tr><th>Система</th><th>моделей</th><th>меняет ответ, грубо, %</th><th>точно, %</th><th>sevenths</th><th>голосование 5 сдвигов</th><th>прирост</th></tr></thead><tbody><tr><td>BTC</td><td>1</td><td>24,5</td><td>30,4</td><td>58,97</td><td>60,64</td><td>+1,67</td></tr><tr><td>ChordMini, ученик BTC</td><td>1</td><td>23,8</td><td>32,0</td><td>57,58</td><td>60,16</td><td>+2,58</td></tr><tr><td>ChordMini, ChordNet</td><td>1</td><td>24,5</td><td>30,6</td><td>56,63</td><td>58,20</td><td>+1,57</td></tr><tr><td>Chord-CNN-LSTM, одна модель</td><td>1</td><td>27,6</td><td>43,4</td><td>47,21</td><td>—</td><td>—</td></tr><tr><td>Chord-CNN-LSTM, ансамбль 5 моделей</td><td>5</td><td>16,4</td><td>27,3</td><td>50,73</td><td>50,54</td><td>−0,19</td></tr><tr><td>наша, одна модель</td><td>1</td><td>18,2</td><td>29,9</td><td>60,00</td><td>60,03</td><td>+0,03</td></tr><tr><td>наша, ансамбль 5 моделей</td><td>5</td><td>16,6</td><td>27,7</td><td>60,36</td><td>—</td><td>—</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>«Грубо» — основной тон и род аккорда, «точно» — полная метка; среднее по четырём сдвигам. Выборка мала (11 записей), числа ориентировочные.</p></div>
+<h2>8. Проверка против исследовательского кода</h2>
+<p><code>tests/check_against_research.py</code> загружает те же веса в чистый и в исследовательский код. Нормировка входа совпадает побитно, выходы сети — с расхождением 0, а распознавание с пятью правилами и без них даёт те же аккорды на записях всех четырёх наборов. С ключом <code>--full</code> чистый код пересчитывает всё BPSD-dev для одной модели и сравнивает уровни с сохранёнными. <code>tests/check_training.py</code> обучает модель 20 шагов исследовательским и чистым кодом с одним seed и сравнивает результат.</p>
+<details><summary>Код ячейки 9 (Python)</summary><pre>for name in (&quot;last_check.txt&quot;, &quot;last_training_check.txt&quot;):
+    p = ROOT / &quot;tests&quot; / name
+    print(p.read_text(encoding=&quot;utf-8&quot;) if p.exists() else f&quot;{name}: отчёт ещё не сохранён&quot;)</pre></details>
+<pre class='out'>Проверка распознавания (tests/check_against_research.py --full, 20.11.2026): модель фолда 0, seed 42; «overlap» — все пять правил, «plain» — без правил.
+1. нормировка фолда 0 совпадает побитно: True
+2. модель: наибольшее расхождение выходов 0.0
+3. bpsd bpsd:Beethoven_Op002No2-01_AS35_comp: правила 585 отрезков, без правил 923 — совпадают: True
+3. bpsd bpsd:Beethoven_Op002No2-01_FG58_comp: правила 520 отрезков, без правил 886 — совпадают: True
+3. jazz jazzsamba:sync:57-chega_de_saudade:alternate_comp: правила 692 отрезков, без правил 1160 — совпадают: True
+3. jazz jazzsamba:sync:57-chega_de_saudade:preferred_comp: правила 680 отрезков, без правил 1113 — совпадают: True
+3. rwcp rwc:P001_comp: правила 189 отрезков, без правил 277 — совпадают: True
+3. rwcp rwc:P002_comp: правила 172 отрезков, без правил 256 — совпадают: True
+3. guitar 00_Funk2-108-Eb_comp: правила 28 отрезков, без правил 32 — совпадают: True
+3. guitar 00_Funk2-119-G_comp: правила 33 отрезков, без правил 37 — совпадают: True
+4. BPSD-dev, overlap: чистый код [66.99, 74.34, 64.73, 61.36, 53.98, 70.72] · сохранено [66.99, 74.34, 64.73, 61.36, 53.98, 70.72] · расхождение 0.00e+00
+4. BPSD-dev, plain: чистый код [66.25, 73.18, 62.16, 58.83, 51.57, 69.66] · сохранено [66.25, 73.18, 62.16, 58.83, 51.57, 69.66] · расхождение 0.00e+00
+ИТОГ: всё совпадает
+
+Проверка обучения (tests/check_training.py, 20.11.2026): фолд 0, seed 42, 1 эпоха × 20 шагов, видеокарта RTX 4060 Laptop.
+потеря эпохи:               исследовательский 36.182848 · чистый 36.182885
+мера на отложенных группах: 0.6471 · 0.6471
+выбранный штраф:            0.0 · 0.0
+DEV, выход «мажор/минор»:   root 7.40 · 7.40; majmin 5.20 · 5.20; sevenths 2.85 · 2.85
+DEV, полные метки:          root 25.04 · 25.04; majmin 0.00 · 0.00; sevenths 0.00 · 0.00
+веса после 20 шагов, наибольшее расхождение: старый против чистого 0.0098; старый против старого (повторный запуск) 0.0107
+Вывод: расхождение весов того же порядка, что между двумя запусками самого исследовательского кода, — это недетерминизм
+обратного прохода на видеокарте, а не различие в коде. (Числа DEV малы: после 20 шагов модель ещё не обучена.)</pre>
+<h2>9. Распознавание аккордов прямо здесь</h2>
+<p>Запись GuitarSet DEV (гитара, джаз, Bb, 35 с), одна модель (фолд 0, seed 42), все пять правил, процессор. Признаки считаются из аудиофайла заново. Из командной строки то же самое: <code>python -m chordrec.recognize запись.wav</code>.</p>
+<details><summary>Код ячейки 10 (Python)</summary><pre>import librosa
+from chordrec.config import MANIFESTS, SR
+from chordrec.evaluate import levels as eval_levels
+from chordrec.features import cqt_from_signal
+from chordrec.recognize import load_models
+
+rec = next(json.loads(l) for l in open(MANIFESTS[&quot;guitarset&quot;], encoding=&quot;utf-8&quot;) if &#x27;&quot;00_Jazz2-110-Bb_comp&quot;&#x27; in l)
+y, _ = librosa.load(rec[&quot;audio_path&quot;], sr=SR, mono=True)
+cpu = torch.device(&quot;cpu&quot;)
+t0 = time.time()
+x = cqt_from_signal(y)
+res = rules.recognize(load_models(1, cpu), x, len(y) / SR, cpu, rules=True)
+print(f&quot;Запись {len(y) / SR:.1f} с, распознана за {time.time() - t0:.1f} с на процессоре&quot;)
+
+
+def ref_at(t):
+    return next((s[&quot;label&quot;] for s in rec[&quot;chord_intervals&quot;] if s[&quot;start&quot;] &lt;= t &lt; s[&quot;end&quot;]), &quot;N&quot;)
+
+
+import mir_eval
+
+merged = []  # соседние отрезки одного аккорда (различаются только басом) склеиваются для показа
+for s in res[&quot;chords&quot;]:
+    lab = s[&quot;label&quot;].split(&quot;/&quot;)[0]
+    if merged and merged[-1][&quot;label&quot;] == lab:
+        merged[-1][&quot;end&quot;] = s[&quot;end&quot;]
+    else:
+        merged.append({&quot;start&quot;: s[&quot;start&quot;], &quot;end&quot;: s[&quot;end&quot;], &quot;label&quot;: lab})
+rows = []
+for s in merged[:14]:
+    r = ref_at((s[&quot;start&quot;] + s[&quot;end&quot;]) / 2)
+    sc = mir_eval.chord.sevenths([r], [s[&quot;label&quot;]])[0]
+    rows.append([f&quot;{s[&#x27;start&#x27;]:.1f}–{s[&#x27;end&#x27;]:.1f}&quot;, r, s[&quot;label&quot;], &quot;✓&quot; if sc == 1 else (&quot;вне словаря&quot; if sc &lt; 0 else &quot;✗&quot;)])
+table([&quot;Время, с&quot;, &quot;Эталон (в середине отрезка)&quot;, &quot;Распознано&quot;, &quot;верно на уровне sevenths&quot;], rows,
+      note=&quot;Первые 14 аккордов. Обозначения Harte: C:maj7 — большой мажорный септаккорд, D:min7 — малый минорный, C:7 — доминантсептаккорд; &quot;
+           &quot;/1, /5 — бас. «Вне словаря» — эталонный аккорд не входит в словарь уровня sevenths (например, sus2 с септимой) и в оценке не участвует.&quot;)
+lv = eval_levels([rec], {rec[&quot;id&quot;]: res[&quot;majmin&quot;]}, {rec[&quot;id&quot;]: res[&quot;chords&quot;]})
+table(LEVELS, [[f2(lv[q]) for q in LEVELS]], note=&quot;Уровни на этой записи (одна модель, пять правил).&quot;)</pre></details>
+<pre class='out'>Запись 34.9 с, распознана за 4.9 с на процессоре</pre>
+<div class='out-html'><table><thead><tr><th>Время, с</th><th>Эталон (в середине отрезка)</th><th>Распознано</th><th>верно на уровне sevenths</th></tr></thead><tbody><tr><td>0.0–2.5</td><td>D#:sus2(b7)/1</td><td>D#:min7</td><td>вне словаря</td></tr><tr><td>2.5–4.4</td><td>G#:min7/1</td><td>G#:7</td><td>✗</td></tr><tr><td>4.4–6.4</td><td>C#:maj7/5</td><td>C#:7</td><td>✗</td></tr><tr><td>6.4–9.0</td><td>F#:maj/5</td><td>F#:maj</td><td>✓</td></tr><tr><td>9.0–10.8</td><td>C:hdim7/1</td><td>C:hdim7</td><td>вне словаря</td></tr><tr><td>10.8–13.1</td><td>F:7(#9,*5)/1</td><td>F:7</td><td>вне словаря</td></tr><tr><td>13.1–17.4</td><td>A#:min7/1</td><td>A#:min7</td><td>✓</td></tr><tr><td>17.4–20.2</td><td>D#:sus4(b7)/1</td><td>D#:min7</td><td>вне словаря</td></tr><tr><td>20.2–21.6</td><td>G#:7/1</td><td>G#:7</td><td>✓</td></tr><tr><td>21.6–24.0</td><td>C#:7/1</td><td>C#:7</td><td>✓</td></tr><tr><td>24.0–26.2</td><td>F#:9/1</td><td>F#:7</td><td>✓</td></tr><tr><td>26.2–28.4</td><td>C:7(b5,#9,*5)/1</td><td>C:hdim7</td><td>вне словаря</td></tr><tr><td>28.4–30.5</td><td>F:7(#9,*5)/1</td><td>F:7</td><td>вне словаря</td></tr><tr><td>30.5–34.9</td><td>A#:min7/1</td><td>A#:min7</td><td>✓</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Первые 14 аккордов. Обозначения Harte: C:maj7 — большой мажорный септаккорд, D:min7 — малый минорный, C:7 — доминантсептаккорд; /1, /5 — бас. «Вне словаря» — эталонный аккорд не входит в словарь уровня sevenths (например, sus2 с септимой) и в оценке не участвует.</p></div>
+<div class='out-html'><table><thead><tr><th>root</th><th>majmin</th><th>triads</th><th>sevenths</th><th>tetrads</th><th>mirex</th></tr></thead><tbody><tr><td>94,79</td><td>85,38</td><td>58,47</td><td>76,20</td><td>52,81</td><td>94,79</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Уровни на этой записи (одна модель, пять правил).</p></div>
+<h2>10. Отложенные наборы</h2>
+<p><b>BPSD-final</b> (80 записей, 20 сонат) и <b>JazzSAMBA-test</b> (14 записей, 7 пьес) открыты один раз после заморозки рецепта: протокол с SHA-256 весов и скриптов — <code>results/final/protocol_frozen.json</code>. Те же 15 моделей и те же три открытые системы; 95 % интервалы — бутстреп по сонатам (пьесам), 10 000 повторов. GuitarSet TEST не используется.</p>
+<details><summary>Код ячейки 11 (Python)</summary><pre>fin = load(&quot;results/final/report_final.json&quot;)
+NAMES = [(&quot;cnnlstm&quot;, &quot;Chord-CNN-LSTM&quot;), (&quot;btc_teacher&quot;, &quot;BTC&quot;), (&quot;btc_cl&quot;, &quot;ChordMini&quot;), (&quot;ours_single&quot;, &quot;наша, одна модель&quot;),
+         (&quot;ours_rules&quot;, &quot;наша + 5 правил&quot;)]
+rows = []
+for ds, title in [(&quot;bpsd_final&quot;, &quot;BPSD-final (80)&quot;), (&quot;jazz_test&quot;, &quot;JazzSAMBA-test (14)&quot;)]:
+    rows.append([f&quot;&lt;b&gt;{title}&lt;/b&gt;&quot;] + [&quot;&quot;] * 6)
+    lv = fin[f&quot;{ds}|levels&quot;]
+    best = np.max(np.array([[lv[k][q] for q in LEVELS] for k, _ in NAMES]), 0)
+    for k, n in NAMES:
+        rows.append([n] + [f&quot;&lt;b&gt;{f2(lv[k][q])}&lt;/b&gt;&quot; if abs(lv[k][q] - b) &lt; 1e-9 else f2(lv[k][q]) for q, b in zip(LEVELS, best)])
+table([&quot;Набор и система&quot;] + LEVELS, rows, note=&quot;Жирным — лучшее в столбце внутри набора.&quot;)
+rows = []
+for ds, title in [(&quot;bpsd_final&quot;, &quot;BPSD-final&quot;), (&quot;jazz_test&quot;, &quot;JazzSAMBA-test&quot;)]:
+    for k, n in [(&quot;btc_teacher&quot;, &quot;BTC&quot;), (&quot;cnnlstm&quot;, &quot;Chord-CNN-LSTM&quot;)]:
+        d = fin[f&quot;{ds}|ours_rules-{k}&quot;]
+        rows.append([title, n] + [f&quot;{f2(d[q][&#x27;diff&#x27;], True)} [{f2(d[q][&#x27;ci95&#x27;][0])}; {f2(d[q][&#x27;ci95&#x27;][1])}]&quot; for q in (&quot;majmin&quot;, &quot;sevenths&quot;, &quot;tetrads&quot;)])
+table([&quot;Набор&quot;, &quot;против&quot;, &quot;majmin&quot;, &quot;sevenths&quot;, &quot;tetrads&quot;], rows, note=&quot;Наша + 5 правил минус открытая система, 95 % интервал.&quot;)</pre></details>
+<div class='out-html'><table><thead><tr><th>Набор и система</th><th>root</th><th>majmin</th><th>triads</th><th>sevenths</th><th>tetrads</th><th>mirex</th></tr></thead><tbody><tr><td><b>BPSD-final (80)</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Chord-CNN-LSTM</td><td>56,07</td><td>59,61</td><td>54,70</td><td>47,92</td><td>43,61</td><td>58,17</td></tr><tr><td>BTC</td><td>64,28</td><td>68,13</td><td>62,59</td><td>58,12</td><td>53,36</td><td>68,19</td></tr><tr><td>ChordMini</td><td>63,56</td><td>67,40</td><td>61,80</td><td>57,61</td><td>52,76</td><td>68,34</td></tr><tr><td>наша, одна модель</td><td>70,24</td><td>75,06</td><td>67,60</td><td>60,49</td><td>55,69</td><td>72,89</td></tr><tr><td>наша + 5 правил</td><td><b>70,71</b></td><td><b>75,74</b></td><td><b>69,10</b></td><td><b>61,70</b></td><td><b>56,83</b></td><td><b>73,31</b></td></tr><tr><td><b>JazzSAMBA-test (14)</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Chord-CNN-LSTM</td><td>63,98</td><td>57,63</td><td>55,29</td><td>37,66</td><td>34,74</td><td>64,52</td></tr><tr><td>BTC</td><td>56,70</td><td>49,24</td><td>47,04</td><td>21,30</td><td>19,54</td><td>53,68</td></tr><tr><td>ChordMini</td><td>59,46</td><td>51,84</td><td>49,59</td><td>27,48</td><td>25,11</td><td>58,31</td></tr><tr><td>наша, одна модель</td><td>68,38</td><td>61,95</td><td>56,71</td><td>40,28</td><td>37,75</td><td><b>70,13</b></td></tr><tr><td>наша + 5 правил</td><td><b>68,67</b></td><td><b>62,86</b></td><td><b>58,87</b></td><td><b>41,31</b></td><td><b>38,57</b></td><td>70,09</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Жирным — лучшее в столбце внутри набора.</p></div>
+<div class='out-html'><table><thead><tr><th>Набор</th><th>против</th><th>majmin</th><th>sevenths</th><th>tetrads</th></tr></thead><tbody><tr><td>BPSD-final</td><td>BTC</td><td>+7,61 [5,63; 9,62]</td><td>+3,58 [1,18; 5,95]</td><td>+3,46 [1,31; 5,61]</td></tr><tr><td>BPSD-final</td><td>Chord-CNN-LSTM</td><td>+16,13 [12,71; 19,62]</td><td>+13,79 [10,82; 16,81]</td><td>+13,22 [10,48; 16,06]</td></tr><tr><td>JazzSAMBA-test</td><td>BTC</td><td>+13,62 [10,00; 18,93]</td><td>+20,00 [10,19; 28,99]</td><td>+19,04 [10,30; 27,81]</td></tr><tr><td>JazzSAMBA-test</td><td>Chord-CNN-LSTM</td><td>+5,23 [2,29; 7,78]</td><td>+3,64 [−4,47; 10,70]</td><td>+3,84 [−3,85; 9,85]</td></tr></tbody></table><p style='font-size:90%;opacity:.75'>Наша + 5 правил минус открытая система, 95 % интервал.</p></div></main></body></html>

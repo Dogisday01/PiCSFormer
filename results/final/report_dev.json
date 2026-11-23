@@ -1,0 +1,1199 @@
+{
+ "protocol": "results/final-protocol/protocol_frozen.json",
+ "n_boot": 10000,
+ "bpsd|ours_single|sd_models": {
+  "root": 0.13,
+  "majmin": 0.18,
+  "triads": 0.18,
+  "sevenths": 0.29,
+  "tetrads": 0.25,
+  "mirex": 0.3
+ },
+ "bpsd|ours_rules|sd_models": {
+  "root": 0.19,
+  "majmin": 0.18,
+  "triads": 0.17,
+  "sevenths": 0.33,
+  "tetrads": 0.31,
+  "mirex": 0.23
+ },
+ "bpsd|levels": {
+  "ours_single": {
+   "root": 66.87,
+   "majmin": 73.85,
+   "triads": 63.45,
+   "sevenths": 60.78,
+   "tetrads": 53.47,
+   "mirex": 71.04
+  },
+  "ours_rules": {
+   "root": 67.4,
+   "majmin": 74.6,
+   "triads": 65.23,
+   "sevenths": 62.65,
+   "tetrads": 55.29,
+   "mirex": 71.62
+  },
+  "cnnlstm": {
+   "root": 53.27,
+   "majmin": 58.66,
+   "triads": 51.53,
+   "sevenths": 47.3,
+   "tetrads": 41.02,
+   "mirex": 55.26
+  },
+  "btc_teacher": {
+   "root": 63.01,
+   "majmin": 68.1,
+   "triads": 60.59,
+   "sevenths": 59.29,
+   "tetrads": 52.69,
+   "mirex": 68.19
+  },
+  "btc_cl": {
+   "root": 62.97,
+   "majmin": 67.76,
+   "triads": 60.49,
+   "sevenths": 58.9,
+   "tetrads": 52.29,
+   "mirex": 68.53
+  },
+  "chordnet": {
+   "root": 62.49,
+   "majmin": 67.61,
+   "triads": 60.16,
+   "sevenths": 58.78,
+   "tetrads": 52.38,
+   "mirex": 67.51
+  }
+ },
+ "bpsd|clusters": 11,
+ "bpsd|ours_single-cnnlstm": {
+  "root": {
+   "diff": 13.6,
+   "ci95": [
+    10.64,
+    16.73
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 15.19,
+   "ci95": [
+    11.26,
+    19.36
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 11.92,
+   "ci95": [
+    9.21,
+    14.66
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 13.48,
+   "ci95": [
+    9.2,
+    17.54
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 12.45,
+   "ci95": [
+    8.79,
+    15.76
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 15.78,
+   "ci95": [
+    12.33,
+    19.34
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_single-btc_teacher": {
+  "root": {
+   "diff": 3.86,
+   "ci95": [
+    1.75,
+    5.73
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 5.75,
+   "ci95": [
+    3.39,
+    7.87
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 2.86,
+   "ci95": [
+    0.8,
+    4.77
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 1.5,
+   "ci95": [
+    -0.74,
+    3.58
+   ],
+   "significant": false
+  },
+  "tetrads": {
+   "diff": 0.78,
+   "ci95": [
+    -1.45,
+    2.95
+   ],
+   "significant": false
+  },
+  "mirex": {
+   "diff": 2.85,
+   "ci95": [
+    1.1,
+    4.53
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_single-btc_cl": {
+  "root": {
+   "diff": 3.89,
+   "ci95": [
+    1.91,
+    5.63
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 6.09,
+   "ci95": [
+    3.93,
+    8.12
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 2.96,
+   "ci95": [
+    1.01,
+    4.7
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 1.89,
+   "ci95": [
+    -0.45,
+    4.3
+   ],
+   "significant": false
+  },
+  "tetrads": {
+   "diff": 1.18,
+   "ci95": [
+    -1.23,
+    3.6
+   ],
+   "significant": false
+  },
+  "mirex": {
+   "diff": 2.51,
+   "ci95": [
+    0.85,
+    4.13
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_single-chordnet": {
+  "root": {
+   "diff": 4.38,
+   "ci95": [
+    2.85,
+    5.78
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 6.24,
+   "ci95": [
+    4.63,
+    7.62
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 3.29,
+   "ci95": [
+    1.72,
+    4.79
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 2.0,
+   "ci95": [
+    0.2,
+    3.43
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 1.09,
+   "ci95": [
+    -0.71,
+    2.77
+   ],
+   "significant": false
+  },
+  "mirex": {
+   "diff": 3.53,
+   "ci95": [
+    2.15,
+    4.83
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_rules-cnnlstm": {
+  "root": {
+   "diff": 14.13,
+   "ci95": [
+    11.06,
+    17.36
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 15.94,
+   "ci95": [
+    11.99,
+    20.1
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 13.7,
+   "ci95": [
+    10.78,
+    16.67
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 15.34,
+   "ci95": [
+    10.98,
+    19.61
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 14.26,
+   "ci95": [
+    10.58,
+    17.76
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 16.36,
+   "ci95": [
+    12.93,
+    19.89
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_rules-btc_teacher": {
+  "root": {
+   "diff": 4.39,
+   "ci95": [
+    2.21,
+    6.33
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 6.5,
+   "ci95": [
+    4.08,
+    8.65
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 4.64,
+   "ci95": [
+    2.57,
+    6.56
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 3.36,
+   "ci95": [
+    0.91,
+    5.69
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 2.59,
+   "ci95": [
+    0.07,
+    5.11
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 3.44,
+   "ci95": [
+    1.75,
+    5.17
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_rules-btc_cl": {
+  "root": {
+   "diff": 4.42,
+   "ci95": [
+    2.36,
+    6.24
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 6.84,
+   "ci95": [
+    4.62,
+    8.92
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 4.74,
+   "ci95": [
+    2.75,
+    6.51
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 3.75,
+   "ci95": [
+    1.38,
+    6.26
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 3.0,
+   "ci95": [
+    0.33,
+    5.64
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 3.1,
+   "ci95": [
+    1.57,
+    4.66
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|ours_rules-chordnet": {
+  "root": {
+   "diff": 4.91,
+   "ci95": [
+    3.44,
+    6.22
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 6.99,
+   "ci95": [
+    5.37,
+    8.36
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 5.07,
+   "ci95": [
+    3.64,
+    6.38
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 3.86,
+   "ci95": [
+    1.95,
+    5.38
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 2.91,
+   "ci95": [
+    0.8,
+    4.71
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 4.11,
+   "ci95": [
+    2.97,
+    5.28
+   ],
+   "significant": true
+  }
+ },
+ "bpsd|overlap_groups": {
+  "with": 8,
+  "without": 3
+ },
+ "bpsd|overlap|ours_single-cnnlstm": {
+  "root": {
+   "with": 13.6,
+   "without": 13.6,
+   "measure": -0.0
+  },
+  "majmin": {
+   "with": 14.76,
+   "without": 16.23,
+   "measure": -1.47
+  },
+  "triads": {
+   "with": 12.02,
+   "without": 11.71,
+   "measure": 0.31
+  },
+  "sevenths": {
+   "with": 13.12,
+   "without": 14.37,
+   "measure": -1.25
+  },
+  "tetrads": {
+   "with": 12.34,
+   "without": 12.7,
+   "measure": -0.37
+  },
+  "mirex": {
+   "with": 15.81,
+   "without": 15.72,
+   "measure": 0.08
+  }
+ },
+ "bpsd|overlap|ours_single-btc_teacher": {
+  "root": {
+   "with": 4.7,
+   "without": 1.86,
+   "measure": 2.84
+  },
+  "majmin": {
+   "with": 5.79,
+   "without": 5.67,
+   "measure": 0.12
+  },
+  "triads": {
+   "with": 3.45,
+   "without": 1.48,
+   "measure": 1.97
+  },
+  "sevenths": {
+   "with": 1.51,
+   "without": 1.46,
+   "measure": 0.05
+  },
+  "tetrads": {
+   "with": 1.14,
+   "without": -0.08,
+   "measure": 1.22
+  },
+  "mirex": {
+   "with": 3.32,
+   "without": 1.75,
+   "measure": 1.58
+  }
+ },
+ "bpsd|overlap|ours_single-btc_cl": {
+  "root": {
+   "with": 4.55,
+   "without": 2.36,
+   "measure": 2.19
+  },
+  "majmin": {
+   "with": 5.71,
+   "without": 7.0,
+   "measure": -1.29
+  },
+  "triads": {
+   "with": 3.5,
+   "without": 1.67,
+   "measure": 1.83
+  },
+  "sevenths": {
+   "with": 1.7,
+   "without": 2.36,
+   "measure": -0.66
+  },
+  "tetrads": {
+   "with": 1.54,
+   "without": 0.34,
+   "measure": 1.2
+  },
+  "mirex": {
+   "with": 2.88,
+   "without": 1.66,
+   "measure": 1.22
+  }
+ },
+ "bpsd|overlap|ours_single-chordnet": {
+  "root": {
+   "with": 5.26,
+   "without": 2.31,
+   "measure": 2.95
+  },
+  "majmin": {
+   "with": 6.22,
+   "without": 6.29,
+   "measure": -0.07
+  },
+  "triads": {
+   "with": 4.19,
+   "without": 1.18,
+   "measure": 3.01
+  },
+  "sevenths": {
+   "with": 2.0,
+   "without": 2.0,
+   "measure": -0.0
+  },
+  "tetrads": {
+   "with": 1.77,
+   "without": -0.5,
+   "measure": 2.27
+  },
+  "mirex": {
+   "with": 4.08,
+   "without": 2.23,
+   "measure": 1.86
+  }
+ },
+ "bpsd|overlap|ours_rules-cnnlstm": {
+  "root": {
+   "with": 14.15,
+   "without": 14.07,
+   "measure": 0.08
+  },
+  "majmin": {
+   "with": 15.51,
+   "without": 16.99,
+   "measure": -1.48
+  },
+  "triads": {
+   "with": 13.81,
+   "without": 13.45,
+   "measure": 0.37
+  },
+  "sevenths": {
+   "with": 15.13,
+   "without": 15.86,
+   "measure": -0.72
+  },
+  "tetrads": {
+   "with": 14.27,
+   "without": 14.24,
+   "measure": 0.03
+  },
+  "mirex": {
+   "with": 16.46,
+   "without": 16.15,
+   "measure": 0.31
+  }
+ },
+ "bpsd|overlap|ours_rules-btc_teacher": {
+  "root": {
+   "with": 5.26,
+   "without": 2.34,
+   "measure": 2.92
+  },
+  "majmin": {
+   "with": 6.54,
+   "without": 6.43,
+   "measure": 0.11
+  },
+  "triads": {
+   "with": 5.24,
+   "without": 3.22,
+   "measure": 2.03
+  },
+  "sevenths": {
+   "with": 3.53,
+   "without": 2.95,
+   "measure": 0.58
+  },
+  "tetrads": {
+   "with": 3.08,
+   "without": 1.46,
+   "measure": 1.62
+  },
+  "mirex": {
+   "with": 3.97,
+   "without": 2.17,
+   "measure": 1.8
+  }
+ },
+ "bpsd|overlap|ours_rules-btc_cl": {
+  "root": {
+   "with": 5.1,
+   "without": 2.83,
+   "measure": 2.28
+  },
+  "majmin": {
+   "with": 6.46,
+   "without": 7.76,
+   "measure": -1.3
+  },
+  "triads": {
+   "with": 5.3,
+   "without": 3.41,
+   "measure": 1.89
+  },
+  "sevenths": {
+   "with": 3.71,
+   "without": 3.84,
+   "measure": -0.13
+  },
+  "tetrads": {
+   "with": 3.48,
+   "without": 1.88,
+   "measure": 1.6
+  },
+  "mirex": {
+   "with": 3.53,
+   "without": 2.08,
+   "measure": 1.44
+  }
+ },
+ "bpsd|overlap|ours_rules-chordnet": {
+  "root": {
+   "with": 5.82,
+   "without": 2.78,
+   "measure": 3.04
+  },
+  "majmin": {
+   "with": 6.97,
+   "without": 7.05,
+   "measure": -0.08
+  },
+  "triads": {
+   "with": 5.98,
+   "without": 2.92,
+   "measure": 3.06
+  },
+  "sevenths": {
+   "with": 4.01,
+   "without": 3.49,
+   "measure": 0.53
+  },
+  "tetrads": {
+   "with": 3.7,
+   "without": 1.03,
+   "measure": 2.67
+  },
+  "mirex": {
+   "with": 4.74,
+   "without": 2.65,
+   "measure": 2.08
+  }
+ },
+ "jazz|ours_single|sd_models": {
+  "root": 0.34,
+  "majmin": 0.5,
+  "triads": 0.46,
+  "sevenths": 0.62,
+  "tetrads": 0.55,
+  "mirex": 0.31
+ },
+ "jazz|ours_rules|sd_models": {
+  "root": 0.31,
+  "majmin": 0.41,
+  "triads": 0.59,
+  "sevenths": 0.67,
+  "tetrads": 0.54,
+  "mirex": 0.53
+ },
+ "jazz|levels": {
+  "ours_single": {
+   "root": 66.5,
+   "majmin": 61.82,
+   "triads": 57.49,
+   "sevenths": 43.07,
+   "tetrads": 38.57,
+   "mirex": 70.82
+  },
+  "ours_rules": {
+   "root": 66.71,
+   "majmin": 62.92,
+   "triads": 59.37,
+   "sevenths": 44.21,
+   "tetrads": 39.39,
+   "mirex": 69.88
+  },
+  "cnnlstm": {
+   "root": 66.08,
+   "majmin": 60.32,
+   "triads": 58.01,
+   "sevenths": 41.68,
+   "tetrads": 36.29,
+   "mirex": 68.13
+  },
+  "btc_teacher": {
+   "root": 57.4,
+   "majmin": 51.73,
+   "triads": 49.6,
+   "sevenths": 27.86,
+   "tetrads": 24.41,
+   "mirex": 58.65
+  },
+  "btc_cl": {
+   "root": 59.51,
+   "majmin": 53.2,
+   "triads": 51.21,
+   "sevenths": 33.26,
+   "tetrads": 29.27,
+   "mirex": 60.72
+  },
+  "chordnet": {
+   "root": 56.57,
+   "majmin": 50.61,
+   "triads": 48.31,
+   "sevenths": 28.91,
+   "tetrads": 25.11,
+   "mirex": 57.19
+  }
+ },
+ "jazz|clusters": 6,
+ "jazz|ours_single-cnnlstm": {
+  "root": {
+   "diff": 0.42,
+   "ci95": [
+    -6.79,
+    4.85
+   ],
+   "significant": false
+  },
+  "majmin": {
+   "diff": 1.5,
+   "ci95": [
+    -6.1,
+    5.98
+   ],
+   "significant": false
+  },
+  "triads": {
+   "diff": -0.52,
+   "ci95": [
+    -6.28,
+    3.44
+   ],
+   "significant": false
+  },
+  "sevenths": {
+   "diff": 1.39,
+   "ci95": [
+    -7.65,
+    6.55
+   ],
+   "significant": false
+  },
+  "tetrads": {
+   "diff": 2.28,
+   "ci95": [
+    -6.09,
+    7.02
+   ],
+   "significant": false
+  },
+  "mirex": {
+   "diff": 2.7,
+   "ci95": [
+    -5.32,
+    7.05
+   ],
+   "significant": false
+  }
+ },
+ "jazz|ours_single-btc_teacher": {
+  "root": {
+   "diff": 9.1,
+   "ci95": [
+    5.81,
+    12.31
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 10.09,
+   "ci95": [
+    5.92,
+    13.77
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 7.89,
+   "ci95": [
+    4.77,
+    11.3
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 15.21,
+   "ci95": [
+    10.48,
+    21.66
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 14.16,
+   "ci95": [
+    9.55,
+    20.39
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 12.17,
+   "ci95": [
+    9.07,
+    16.34
+   ],
+   "significant": true
+  }
+ },
+ "jazz|ours_single-btc_cl": {
+  "root": {
+   "diff": 7.0,
+   "ci95": [
+    1.87,
+    10.26
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 8.62,
+   "ci95": [
+    2.44,
+    12.21
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 6.28,
+   "ci95": [
+    2.21,
+    9.5
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 9.81,
+   "ci95": [
+    7.1,
+    14.82
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 9.31,
+   "ci95": [
+    6.68,
+    14.36
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 10.1,
+   "ci95": [
+    6.11,
+    13.03
+   ],
+   "significant": true
+  }
+ },
+ "jazz|ours_single-chordnet": {
+  "root": {
+   "diff": 9.93,
+   "ci95": [
+    3.33,
+    15.42
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 11.21,
+   "ci95": [
+    2.45,
+    16.5
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 9.18,
+   "ci95": [
+    2.25,
+    13.92
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 14.15,
+   "ci95": [
+    10.08,
+    20.72
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 13.46,
+   "ci95": [
+    9.87,
+    19.42
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 13.64,
+   "ci95": [
+    7.19,
+    18.81
+   ],
+   "significant": true
+  }
+ },
+ "jazz|ours_rules-cnnlstm": {
+  "root": {
+   "diff": 0.63,
+   "ci95": [
+    -8.04,
+    4.98
+   ],
+   "significant": false
+  },
+  "majmin": {
+   "diff": 2.6,
+   "ci95": [
+    -5.39,
+    7.37
+   ],
+   "significant": false
+  },
+  "triads": {
+   "diff": 1.37,
+   "ci95": [
+    -5.48,
+    4.97
+   ],
+   "significant": false
+  },
+  "sevenths": {
+   "diff": 2.53,
+   "ci95": [
+    -6.59,
+    7.04
+   ],
+   "significant": false
+  },
+  "tetrads": {
+   "diff": 3.1,
+   "ci95": [
+    -5.29,
+    7.56
+   ],
+   "significant": false
+  },
+  "mirex": {
+   "diff": 1.76,
+   "ci95": [
+    -7.18,
+    6.29
+   ],
+   "significant": false
+  }
+ },
+ "jazz|ours_rules-btc_teacher": {
+  "root": {
+   "diff": 9.31,
+   "ci95": [
+    5.02,
+    12.23
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 11.19,
+   "ci95": [
+    6.78,
+    15.01
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 9.78,
+   "ci95": [
+    6.07,
+    13.27
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 16.35,
+   "ci95": [
+    12.23,
+    22.06
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 14.98,
+   "ci95": [
+    10.57,
+    20.99
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 11.23,
+   "ci95": [
+    7.27,
+    15.21
+   ],
+   "significant": true
+  }
+ },
+ "jazz|ours_rules-btc_cl": {
+  "root": {
+   "diff": 7.2,
+   "ci95": [
+    0.44,
+    10.6
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 9.71,
+   "ci95": [
+    3.45,
+    13.23
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 8.16,
+   "ci95": [
+    3.04,
+    11.97
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 10.95,
+   "ci95": [
+    8.74,
+    15.27
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 10.12,
+   "ci95": [
+    7.68,
+    14.87
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 9.16,
+   "ci95": [
+    3.7,
+    12.81
+   ],
+   "significant": true
+  }
+ },
+ "jazz|ours_rules-chordnet": {
+  "root": {
+   "diff": 10.14,
+   "ci95": [
+    1.86,
+    15.16
+   ],
+   "significant": true
+  },
+  "majmin": {
+   "diff": 12.31,
+   "ci95": [
+    3.46,
+    17.52
+   ],
+   "significant": true
+  },
+  "triads": {
+   "diff": 11.06,
+   "ci95": [
+    3.08,
+    15.83
+   ],
+   "significant": true
+  },
+  "sevenths": {
+   "diff": 15.29,
+   "ci95": [
+    11.54,
+    21.17
+   ],
+   "significant": true
+  },
+  "tetrads": {
+   "diff": 14.28,
+   "ci95": [
+    10.86,
+    19.97
+   ],
+   "significant": true
+  },
+  "mirex": {
+   "diff": 12.7,
+   "ci95": [
+    4.98,
+    17.92
+   ],
+   "significant": true
+  }
+ },
+ "known_answer_max_abs_diff": 0.005
+}

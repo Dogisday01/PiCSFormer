@@ -1,0 +1,5 @@
+numpy
+torch>=2.1
+librosa
+soundfile
+mir_eval

@@ -1,0 +1,514 @@
+{
+ "bpsd|single": {
+  "root": 66.87,
+  "majmin": 73.85,
+  "triads": 63.45,
+  "sevenths": 60.78,
+  "tetrads": 53.47,
+  "mirex": 71.04
+ },
+ "bpsd|i_K3": {
+  "root": 67.27,
+  "majmin": 74.24,
+  "triads": 63.88,
+  "sevenths": 61.34,
+  "tetrads": 53.95,
+  "mirex": 71.42
+ },
+ "bpsd|i_K3|delta": {
+  "root": 0.4,
+  "majmin": 0.39,
+  "triads": 0.43,
+  "sevenths": 0.55,
+  "tetrads": 0.48,
+  "mirex": 0.38
+ },
+ "bpsd|i_K3|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "bpsd|ii_pen96": {
+  "root": 66.76,
+  "majmin": 74.24,
+  "triads": 64.0,
+  "sevenths": 61.56,
+  "tetrads": 54.12,
+  "mirex": 70.91
+ },
+ "bpsd|ii_pen96|delta": {
+  "root": -0.51,
+  "majmin": 0.0,
+  "triads": 0.13,
+  "sevenths": 0.22,
+  "tetrads": 0.18,
+  "mirex": -0.51
+ },
+ "bpsd|ii_pen96|folds_pos": {
+  "root": 0,
+  "majmin": 0,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 0
+ },
+ "bpsd|iii_clamp": {
+  "root": 66.82,
+  "majmin": 74.3,
+  "triads": 64.07,
+  "sevenths": 61.62,
+  "tetrads": 54.18,
+  "mirex": 70.98
+ },
+ "bpsd|iii_clamp|delta": {
+  "root": 0.06,
+  "majmin": 0.06,
+  "triads": 0.06,
+  "sevenths": 0.07,
+  "tetrads": 0.06,
+  "mirex": 0.06
+ },
+ "bpsd|iii_clamp|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "bpsd|iv_key": {
+  "root": 67.2,
+  "majmin": 74.3,
+  "triads": 65.0,
+  "sevenths": 62.39,
+  "tetrads": 55.07,
+  "mirex": 71.32
+ },
+ "bpsd|iv_key|delta": {
+  "root": 0.38,
+  "majmin": 0.0,
+  "triads": 0.93,
+  "sevenths": 0.77,
+  "tetrads": 0.89,
+  "mirex": 0.34
+ },
+ "bpsd|iv_key|folds_pos": {
+  "root": 5,
+  "majmin": 0,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "bpsd|v_overlap": {
+  "root": 67.4,
+  "majmin": 74.6,
+  "triads": 65.23,
+  "sevenths": 62.65,
+  "tetrads": 55.29,
+  "mirex": 71.62
+ },
+ "bpsd|v_overlap|delta": {
+  "root": 0.2,
+  "majmin": 0.3,
+  "triads": 0.23,
+  "sevenths": 0.25,
+  "tetrads": 0.21,
+  "mirex": 0.31
+ },
+ "bpsd|v_overlap|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "rwcp|single": {
+  "root": 84.04,
+  "majmin": 83.43,
+  "triads": 77.26,
+  "sevenths": 57.2,
+  "tetrads": 52.57,
+  "mirex": 84.24
+ },
+ "rwcp|i_K3": {
+  "root": 84.43,
+  "majmin": 83.91,
+  "triads": 77.63,
+  "sevenths": 58.05,
+  "tetrads": 53.35,
+  "mirex": 84.53
+ },
+ "rwcp|i_K3|delta": {
+  "root": 0.39,
+  "majmin": 0.48,
+  "triads": 0.38,
+  "sevenths": 0.85,
+  "tetrads": 0.78,
+  "mirex": 0.29
+ },
+ "rwcp|i_K3|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "rwcp|ii_pen96": {
+  "root": 84.52,
+  "majmin": 83.91,
+  "triads": 78.1,
+  "sevenths": 58.4,
+  "tetrads": 53.67,
+  "mirex": 84.49
+ },
+ "rwcp|ii_pen96|delta": {
+  "root": 0.09,
+  "majmin": 0.0,
+  "triads": 0.47,
+  "sevenths": 0.36,
+  "tetrads": 0.32,
+  "mirex": -0.04
+ },
+ "rwcp|ii_pen96|folds_pos": {
+  "root": 4,
+  "majmin": 0,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 1
+ },
+ "rwcp|iii_clamp": {
+  "root": 84.09,
+  "majmin": 83.58,
+  "triads": 77.61,
+  "sevenths": 60.71,
+  "tetrads": 55.72,
+  "mirex": 84.25
+ },
+ "rwcp|iii_clamp|delta": {
+  "root": -0.43,
+  "majmin": -0.33,
+  "triads": -0.48,
+  "sevenths": 2.31,
+  "tetrads": 2.05,
+  "mirex": -0.24
+ },
+ "rwcp|iii_clamp|folds_pos": {
+  "root": 0,
+  "majmin": 0,
+  "triads": 0,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 0
+ },
+ "rwcp|iv_key": {
+  "root": 84.1,
+  "majmin": 83.58,
+  "triads": 78.12,
+  "sevenths": 61.92,
+  "tetrads": 56.65,
+  "mirex": 84.56
+ },
+ "rwcp|iv_key|delta": {
+  "root": 0.01,
+  "majmin": 0.0,
+  "triads": 0.51,
+  "sevenths": 1.21,
+  "tetrads": 0.93,
+  "mirex": 0.31
+ },
+ "rwcp|iv_key|folds_pos": {
+  "root": 4,
+  "majmin": 0,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "rwcp|v_overlap": {
+  "root": 84.29,
+  "majmin": 83.86,
+  "triads": 78.35,
+  "sevenths": 61.75,
+  "tetrads": 56.48,
+  "mirex": 84.78
+ },
+ "rwcp|v_overlap|delta": {
+  "root": 0.19,
+  "majmin": 0.28,
+  "triads": 0.23,
+  "sevenths": -0.18,
+  "tetrads": -0.17,
+  "mirex": 0.22
+ },
+ "rwcp|v_overlap|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 0,
+  "tetrads": 0,
+  "mirex": 5
+ },
+ "jazz|single": {
+  "root": 66.5,
+  "majmin": 61.82,
+  "triads": 57.49,
+  "sevenths": 43.07,
+  "tetrads": 38.57,
+  "mirex": 70.82
+ },
+ "jazz|i_K3": {
+  "root": 66.86,
+  "majmin": 62.44,
+  "triads": 57.88,
+  "sevenths": 43.42,
+  "tetrads": 38.94,
+  "mirex": 71.12
+ },
+ "jazz|i_K3|delta": {
+  "root": 0.36,
+  "majmin": 0.61,
+  "triads": 0.39,
+  "sevenths": 0.35,
+  "tetrads": 0.37,
+  "mirex": 0.29
+ },
+ "jazz|i_K3|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "jazz|ii_pen96": {
+  "root": 66.66,
+  "majmin": 62.44,
+  "triads": 58.23,
+  "sevenths": 42.94,
+  "tetrads": 38.15,
+  "mirex": 70.79
+ },
+ "jazz|ii_pen96|delta": {
+  "root": -0.2,
+  "majmin": 0.0,
+  "triads": 0.35,
+  "sevenths": -0.48,
+  "tetrads": -0.79,
+  "mirex": -0.33
+ },
+ "jazz|ii_pen96|folds_pos": {
+  "root": 0,
+  "majmin": 0,
+  "triads": 4,
+  "sevenths": 0,
+  "tetrads": 0,
+  "mirex": 1
+ },
+ "jazz|iii_clamp": {
+  "root": 66.65,
+  "majmin": 62.43,
+  "triads": 58.22,
+  "sevenths": 42.95,
+  "tetrads": 38.16,
+  "mirex": 70.79
+ },
+ "jazz|iii_clamp|delta": {
+  "root": -0.0,
+  "majmin": -0.0,
+  "triads": -0.0,
+  "sevenths": 0.01,
+  "tetrads": 0.01,
+  "mirex": -0.0
+ },
+ "jazz|iii_clamp|folds_pos": {
+  "root": 1,
+  "majmin": 3,
+  "triads": 1,
+  "sevenths": 3,
+  "tetrads": 3,
+  "mirex": 1
+ },
+ "jazz|iv_key": {
+  "root": 66.72,
+  "majmin": 62.43,
+  "triads": 59.13,
+  "sevenths": 43.72,
+  "tetrads": 38.9,
+  "mirex": 69.89
+ },
+ "jazz|iv_key|delta": {
+  "root": 0.07,
+  "majmin": 0.0,
+  "triads": 0.91,
+  "sevenths": 0.77,
+  "tetrads": 0.74,
+  "mirex": -0.9
+ },
+ "jazz|iv_key|folds_pos": {
+  "root": 3,
+  "majmin": 0,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 0
+ },
+ "jazz|v_overlap": {
+  "root": 66.71,
+  "majmin": 62.92,
+  "triads": 59.37,
+  "sevenths": 44.21,
+  "tetrads": 39.39,
+  "mirex": 69.88
+ },
+ "jazz|v_overlap|delta": {
+  "root": -0.01,
+  "majmin": 0.48,
+  "triads": 0.24,
+  "sevenths": 0.49,
+  "tetrads": 0.49,
+  "mirex": -0.0
+ },
+ "jazz|v_overlap|folds_pos": {
+  "root": 2,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 2
+ },
+ "guitar|single": {
+  "root": 86.68,
+  "majmin": 90.85,
+  "triads": 60.09,
+  "sevenths": 87.34,
+  "tetrads": 56.44,
+  "mirex": 87.55
+ },
+ "guitar|i_K3": {
+  "root": 87.28,
+  "majmin": 91.49,
+  "triads": 60.51,
+  "sevenths": 88.01,
+  "tetrads": 56.75,
+  "mirex": 87.9
+ },
+ "guitar|i_K3|delta": {
+  "root": 0.6,
+  "majmin": 0.64,
+  "triads": 0.43,
+  "sevenths": 0.67,
+  "tetrads": 0.31,
+  "mirex": 0.35
+ },
+ "guitar|i_K3|folds_pos": {
+  "root": 4,
+  "majmin": 4,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "guitar|ii_pen96": {
+  "root": 87.54,
+  "majmin": 91.49,
+  "triads": 61.13,
+  "sevenths": 89.28,
+  "tetrads": 57.59,
+  "mirex": 88.41
+ },
+ "guitar|ii_pen96|delta": {
+  "root": 0.26,
+  "majmin": 0.0,
+  "triads": 0.62,
+  "sevenths": 1.27,
+  "tetrads": 0.84,
+  "mirex": 0.51
+ },
+ "guitar|ii_pen96|folds_pos": {
+  "root": 3,
+  "majmin": 0,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 4
+ },
+ "guitar|iii_clamp": {
+  "root": 87.53,
+  "majmin": 91.5,
+  "triads": 61.14,
+  "sevenths": 89.3,
+  "tetrads": 57.6,
+  "mirex": 88.41
+ },
+ "guitar|iii_clamp|delta": {
+  "root": -0.01,
+  "majmin": 0.01,
+  "triads": 0.01,
+  "sevenths": 0.01,
+  "tetrads": 0.01,
+  "mirex": 0.01
+ },
+ "guitar|iii_clamp|folds_pos": {
+  "root": 3,
+  "majmin": 2,
+  "triads": 3,
+  "sevenths": 3,
+  "tetrads": 3,
+  "mirex": 3
+ },
+ "guitar|iv_key": {
+  "root": 87.48,
+  "majmin": 91.5,
+  "triads": 61.06,
+  "sevenths": 88.91,
+  "tetrads": 57.3,
+  "mirex": 88.14
+ },
+ "guitar|iv_key|delta": {
+  "root": -0.05,
+  "majmin": 0.0,
+  "triads": -0.08,
+  "sevenths": -0.38,
+  "tetrads": -0.3,
+  "mirex": -0.28
+ },
+ "guitar|iv_key|folds_pos": {
+  "root": 1,
+  "majmin": 0,
+  "triads": 2,
+  "sevenths": 1,
+  "tetrads": 0,
+  "mirex": 0
+ },
+ "guitar|v_overlap": {
+  "root": 87.95,
+  "majmin": 92.15,
+  "triads": 61.69,
+  "sevenths": 89.61,
+  "tetrads": 57.81,
+  "mirex": 88.63
+ },
+ "guitar|v_overlap|delta": {
+  "root": 0.47,
+  "majmin": 0.64,
+  "triads": 0.63,
+  "sevenths": 0.7,
+  "tetrads": 0.51,
+  "mirex": 0.49
+ },
+ "guitar|v_overlap|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 4,
+  "sevenths": 4,
+  "tetrads": 4,
+  "mirex": 4
+ }
+}

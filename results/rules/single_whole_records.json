@@ -1,0 +1,677 @@
+{
+ "fold0|s42|bpsd|levels": {
+  "majmin": 71.21372535772295,
+  "majmin_inv": 45.65309623947941,
+  "sevenths": 60.310873790321345,
+  "sevenths_inv": 39.22294193153184
+ },
+ "fold0|s42|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 70574,
+  "inv_says_root": 181050,
+  "pos_n": 472164,
+  "pos_ok": 348399,
+  "pred_inv_s": 2503.9238095240607,
+  "pred_s": 18561.381587298707
+ },
+ "fold0|s42|rwcp|levels": {
+  "majmin": 82.36249420537224,
+  "majmin_inv": 77.11973119801284,
+  "sevenths": 56.143891009156626,
+  "sevenths_inv": 53.108540983687824
+ },
+ "fold0|s42|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 44919,
+  "inv_says_root": 47518,
+  "pos_n": 915534,
+  "pos_ok": 809470,
+  "pred_inv_s": 1023.674920634973,
+  "pred_s": 23853.069931969952
+ },
+ "fold0|s42|guitar|levels": {
+  "majmin": 84.58810038881666,
+  "majmin_inv": 63.05727820273644,
+  "sevenths": 80.4893508358979,
+  "sevenths_inv": 60.66065316771116
+ },
+ "fold0|s42|guitar|bass": {
+  "inv_n": 10915,
+  "inv_ok": 3070,
+  "inv_says_root": 4799,
+  "pos_n": 20459,
+  "pos_ok": 17230,
+  "pred_inv_s": 133.7028798185938,
+  "pred_s": 727.4244897959217
+ },
+ "fold0|s43|bpsd|levels": {
+  "majmin": 71.39577569889963,
+  "majmin_inv": 45.670700259645486,
+  "sevenths": 60.7311769295064,
+  "sevenths_inv": 39.33657062167795
+ },
+ "fold0|s43|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 70116,
+  "inv_says_root": 181802,
+  "pos_n": 472164,
+  "pos_ok": 347977,
+  "pred_inv_s": 2473.157369614761,
+  "pred_s": 18660.925532877143
+ },
+ "fold0|s43|rwcp|levels": {
+  "majmin": 82.54412820490103,
+  "majmin_inv": 77.39255316687942,
+  "sevenths": 56.24396899735601,
+  "sevenths_inv": 53.250839151941804
+ },
+ "fold0|s43|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 46875,
+  "inv_says_root": 46067,
+  "pos_n": 915534,
+  "pos_ok": 811196,
+  "pred_inv_s": 1034.866938775565,
+  "pred_s": 23855.11328797889
+ },
+ "fold0|s43|guitar|levels": {
+  "majmin": 85.1028463648159,
+  "majmin_inv": 66.31688798177764,
+  "sevenths": 80.86881149568879,
+  "sevenths_inv": 63.83781804691251
+ },
+ "fold0|s43|guitar|bass": {
+  "inv_n": 10915,
+  "inv_ok": 3248,
+  "inv_says_root": 4660,
+  "pos_n": 20459,
+  "pos_ok": 17454,
+  "pred_inv_s": 129.26786848072535,
+  "pred_s": 726.6350113378724
+ },
+ "fold0|s44|bpsd|levels": {
+  "majmin": 71.25388699448379,
+  "majmin_inv": 45.68339264183254,
+  "sevenths": 60.50088407528822,
+  "sevenths_inv": 39.40376823093113
+ },
+ "fold0|s44|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 69717,
+  "inv_says_root": 181786,
+  "pos_n": 472164,
+  "pos_ok": 348537,
+  "pred_inv_s": 2418.195736961682,
+  "pred_s": 18638.959455779488
+ },
+ "fold0|s44|rwcp|levels": {
+  "majmin": 82.7896247358792,
+  "majmin_inv": 77.4201041123438,
+  "sevenths": 58.96401655016433,
+  "sevenths_inv": 55.62012807207968
+ },
+ "fold0|s44|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 43594,
+  "inv_says_root": 47636,
+  "pos_n": 915534,
+  "pos_ok": 810377,
+  "pred_inv_s": 1058.9460317460953,
+  "pred_s": 23877.195464849385
+ },
+ "fold0|s44|guitar|levels": {
+  "majmin": 84.3025843532883,
+  "majmin_inv": 63.94863742691756,
+  "sevenths": 80.47338325048861,
+  "sevenths_inv": 62.632242853045135
+ },
+ "fold0|s44|guitar|bass": {
+  "inv_n": 10915,
+  "inv_ok": 3332,
+  "inv_says_root": 4595,
+  "pos_n": 20459,
+  "pos_ok": 17050,
+  "pred_inv_s": 130.44140589569133,
+  "pred_s": 727.6102494331121
+ },
+ "fold1|s42|bpsd|levels": {
+  "majmin": 71.69936249473582,
+  "majmin_inv": 45.75683914186066,
+  "sevenths": 61.01634062876315,
+  "sevenths_inv": 39.52108314891671
+ },
+ "fold1|s42|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 70554,
+  "inv_says_root": 181650,
+  "pos_n": 472164,
+  "pos_ok": 348834,
+  "pred_inv_s": 2520.1777777780358,
+  "pred_s": 18652.75210884082
+ },
+ "fold1|s42|rwcp|levels": {
+  "majmin": 82.36634728912256,
+  "majmin_inv": 77.25710464655424,
+  "sevenths": 57.20533948854237,
+  "sevenths_inv": 54.24624620892347
+ },
+ "fold1|s42|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 45866,
+  "inv_says_root": 46972,
+  "pos_n": 915534,
+  "pos_ok": 811184,
+  "pred_inv_s": 960.1451247166012,
+  "pred_s": 23848.588480722956
+ },
+ "fold1|s42|guitar|levels": {
+  "majmin": 94.78493129688691,
+  "majmin_inv": 75.9504368041575,
+  "sevenths": 90.65600535871538,
+  "sevenths_inv": 72.51611188454893
+ },
+ "fold1|s42|guitar|bass": {
+  "inv_n": 7299,
+  "inv_ok": 815,
+  "inv_says_root": 6067,
+  "pos_n": 22185,
+  "pos_ok": 21300,
+  "pred_inv_s": 33.38827664399089,
+  "pred_s": 684.7488435374162
+ },
+ "fold1|s43|bpsd|levels": {
+  "majmin": 71.6298462796998,
+  "majmin_inv": 45.80078576590038,
+  "sevenths": 61.16766608873537,
+  "sevenths_inv": 39.61378684599493
+ },
+ "fold1|s43|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 71199,
+  "inv_says_root": 181730,
+  "pos_n": 472164,
+  "pos_ok": 348418,
+  "pred_inv_s": 2514.3263492065926,
+  "pred_s": 18715.445986391605
+ },
+ "fold1|s43|rwcp|levels": {
+  "majmin": 82.46436118764127,
+  "majmin_inv": 77.53492198761334,
+  "sevenths": 56.04820233141384,
+  "sevenths_inv": 53.205945007480906
+ },
+ "fold1|s43|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 48030,
+  "inv_says_root": 44760,
+  "pos_n": 915534,
+  "pos_ok": 813298,
+  "pred_inv_s": 969.6188662132024,
+  "pred_s": 23841.552834464233
+ },
+ "fold1|s43|guitar|levels": {
+  "majmin": 94.17964661476529,
+  "majmin_inv": 75.44135297026125,
+  "sevenths": 89.72225799244572,
+  "sevenths_inv": 71.68050491775209
+ },
+ "fold1|s43|guitar|bass": {
+  "inv_n": 7299,
+  "inv_ok": 928,
+  "inv_says_root": 5976,
+  "pos_n": 22185,
+  "pos_ok": 21190,
+  "pred_inv_s": 30.879365079365034,
+  "pred_s": 684.7488435374158
+ },
+ "fold1|s44|bpsd|levels": {
+  "majmin": 71.50848935973153,
+  "majmin_inv": 45.72523353813442,
+  "sevenths": 61.13631082545705,
+  "sevenths_inv": 39.636152207716215
+ },
+ "fold1|s44|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 69718,
+  "inv_says_root": 182396,
+  "pos_n": 472164,
+  "pos_ok": 349528,
+  "pred_inv_s": 2432.87074829956,
+  "pred_s": 18663.224308387027
+ },
+ "fold1|s44|rwcp|levels": {
+  "majmin": 82.49568304671095,
+  "majmin_inv": 77.13553377544225,
+  "sevenths": 57.96778255987441,
+  "sevenths_inv": 54.653159480724
+ },
+ "fold1|s44|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 43506,
+  "inv_says_root": 49203,
+  "pos_n": 915534,
+  "pos_ok": 811195,
+  "pred_inv_s": 981.0430839002809,
+  "pred_s": 23876.498866210062
+ },
+ "fold1|s44|guitar|levels": {
+  "majmin": 93.83434506990615,
+  "majmin_inv": 75.88886743909768,
+  "sevenths": 88.5123514261366,
+  "sevenths_inv": 71.28492546170136
+ },
+ "fold1|s44|guitar|bass": {
+  "inv_n": 7299,
+  "inv_ok": 1063,
+  "inv_says_root": 5862,
+  "pos_n": 22185,
+  "pos_ok": 21248,
+  "pred_inv_s": 33.377460317460276,
+  "pred_s": 684.7488435374158
+ },
+ "fold2|s42|bpsd|levels": {
+  "majmin": 71.42073927304494,
+  "majmin_inv": 45.97918089079065,
+  "sevenths": 60.336630274445845,
+  "sevenths_inv": 39.38143523516211
+ },
+ "fold2|s42|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 72352,
+  "inv_says_root": 180059,
+  "pos_n": 472164,
+  "pos_ok": 349499,
+  "pred_inv_s": 2446.6634013607777,
+  "pred_s": 18632.457868478057
+ },
+ "fold2|s42|rwcp|levels": {
+  "majmin": 82.5444996499727,
+  "majmin_inv": 77.49756761372491,
+  "sevenths": 55.332397097647515,
+  "sevenths_inv": 52.62490397463978
+ },
+ "fold2|s42|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 46716,
+  "inv_says_root": 45743,
+  "pos_n": 915534,
+  "pos_ok": 812510,
+  "pred_inv_s": 990.4471655329294,
+  "pred_s": 23794.346666664143
+ },
+ "fold2|s42|guitar|levels": {
+  "majmin": 95.40619271630094,
+  "majmin_inv": 83.02776254693335,
+  "sevenths": 94.57312741248124,
+  "sevenths_inv": 82.57053288356909
+ },
+ "fold2|s42|guitar|bass": {
+  "inv_n": 5749,
+  "inv_ok": 438,
+  "inv_says_root": 4912,
+  "pos_n": 26183,
+  "pos_ok": 24764,
+  "pred_inv_s": 40.5318140589569,
+  "pred_s": 741.496734693879
+ },
+ "fold2|s43|bpsd|levels": {
+  "majmin": 71.66236904906067,
+  "majmin_inv": 46.16261787146443,
+  "sevenths": 60.83566469560201,
+  "sevenths_inv": 39.73329939538439
+ },
+ "fold2|s43|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 72896,
+  "inv_says_root": 179417,
+  "pos_n": 472164,
+  "pos_ok": 348801,
+  "pred_inv_s": 2515.7659863948106,
+  "pred_s": 18672.55873015605
+ },
+ "fold2|s43|rwcp|levels": {
+  "majmin": 82.18465991238558,
+  "majmin_inv": 77.30269597551481,
+  "sevenths": 55.45251210589479,
+  "sevenths_inv": 52.626556339978066
+ },
+ "fold2|s43|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 50099,
+  "inv_says_root": 43058,
+  "pos_n": 915534,
+  "pos_ok": 810865,
+  "pred_inv_s": 1021.4458049887064,
+  "pred_s": 23781.668571425747
+ },
+ "fold2|s43|guitar|levels": {
+  "majmin": 95.89071793070659,
+  "majmin_inv": 83.86213043655856,
+  "sevenths": 95.06936720546068,
+  "sevenths_inv": 83.17581606746135
+ },
+ "fold2|s43|guitar|bass": {
+  "inv_n": 5749,
+  "inv_ok": 537,
+  "inv_says_root": 4600,
+  "pos_n": 26183,
+  "pos_ok": 24865,
+  "pred_inv_s": 47.14657596371878,
+  "pred_s": 741.496734693879
+ },
+ "fold2|s44|bpsd|levels": {
+  "majmin": 71.75305393731945,
+  "majmin_inv": 46.12458431700978,
+  "sevenths": 61.172199318745164,
+  "sevenths_inv": 39.82472597778416
+ },
+ "fold2|s44|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 71615,
+  "inv_says_root": 179966,
+  "pos_n": 472164,
+  "pos_ok": 349413,
+  "pred_inv_s": 2457.135600907262,
+  "pred_s": 18649.570975053764
+ },
+ "fold2|s44|rwcp|levels": {
+  "majmin": 82.75830351417956,
+  "majmin_inv": 77.5233778106688,
+  "sevenths": 57.11649041603905,
+  "sevenths_inv": 54.05804425523965
+ },
+ "fold2|s44|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 45934,
+  "inv_says_root": 46486,
+  "pos_n": 915534,
+  "pos_ok": 811279,
+  "pred_inv_s": 1038.3731519274922,
+  "pred_s": 23851.723174600178
+ },
+ "fold2|s44|guitar|levels": {
+  "majmin": 95.61716837885454,
+  "majmin_inv": 83.03511231736215,
+  "sevenths": 94.35879547647714,
+  "sevenths_inv": 82.04738045645259
+ },
+ "fold2|s44|guitar|bass": {
+  "inv_n": 5749,
+  "inv_ok": 471,
+  "inv_says_root": 4800,
+  "pos_n": 26183,
+  "pos_ok": 24714,
+  "pred_inv_s": 46.49641723356008,
+  "pred_s": 741.4967346938786
+ },
+ "fold3|s42|bpsd|levels": {
+  "majmin": 71.2434438644623,
+  "majmin_inv": 45.67812721243911,
+  "sevenths": 60.57544017734192,
+  "sevenths_inv": 39.442540728839646
+ },
+ "fold3|s42|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 71682,
+  "inv_says_root": 181334,
+  "pos_n": 472164,
+  "pos_ok": 348452,
+  "pred_inv_s": 2608.320725623859,
+  "pred_s": 18671.722811788597
+ },
+ "fold3|s42|rwcp|levels": {
+  "majmin": 82.54532653131821,
+  "majmin_inv": 77.41482829735165,
+  "sevenths": 58.12715222300315,
+  "sevenths_inv": 55.159744363439735
+ },
+ "fold3|s42|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 45331,
+  "inv_says_root": 46224,
+  "pos_n": 915534,
+  "pos_ok": 810273,
+  "pred_inv_s": 1038.791111111169,
+  "pred_s": 23808.417959180726
+ },
+ "fold3|s42|guitar|levels": {
+  "majmin": 94.33705538582822,
+  "majmin_inv": 78.48158800707917,
+  "sevenths": 91.73261917415925,
+  "sevenths_inv": 76.53942256798203
+ },
+ "fold3|s42|guitar|bass": {
+  "inv_n": 6422,
+  "inv_ok": 1443,
+  "inv_says_root": 4235,
+  "pos_n": 23536,
+  "pos_ok": 21518,
+  "pred_inv_s": 60.8362811791382,
+  "pred_s": 695.7142857142887
+ },
+ "fold3|s43|bpsd|levels": {
+  "majmin": 71.39504749289921,
+  "majmin_inv": 45.59811115016927,
+  "sevenths": 60.647285037470425,
+  "sevenths_inv": 39.35355647728876
+ },
+ "fold3|s43|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 70881,
+  "inv_says_root": 181810,
+  "pos_n": 472164,
+  "pos_ok": 347739,
+  "pred_inv_s": 2589.74476190502,
+  "pred_s": 18694.50158729874
+ },
+ "fold3|s43|rwcp|levels": {
+  "majmin": 82.3381071645835,
+  "majmin_inv": 77.299985645588,
+  "sevenths": 56.934455077870744,
+  "sevenths_inv": 54.016571127974345
+ },
+ "fold3|s43|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 46489,
+  "inv_says_root": 45586,
+  "pos_n": 915534,
+  "pos_ok": 810511,
+  "pred_inv_s": 1005.7258956916644,
+  "pred_s": 23818.866938772564
+ },
+ "fold3|s43|guitar|levels": {
+  "majmin": 93.93435931607141,
+  "majmin_inv": 76.99943492071652,
+  "sevenths": 91.3899221689034,
+  "sevenths_inv": 74.97353177972037
+ },
+ "fold3|s43|guitar|bass": {
+  "inv_n": 6422,
+  "inv_ok": 982,
+  "inv_says_root": 4705,
+  "pos_n": 23536,
+  "pos_ok": 21900,
+  "pred_inv_s": 44.23401360544216,
+  "pred_s": 695.7142857142879
+ },
+ "fold3|s44|bpsd|levels": {
+  "majmin": 71.32216140696102,
+  "majmin_inv": 45.68295265756934,
+  "sevenths": 60.61531759971171,
+  "sevenths_inv": 39.46520109825706
+ },
+ "fold3|s44|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 70892,
+  "inv_says_root": 182363,
+  "pos_n": 472164,
+  "pos_ok": 348887,
+  "pred_inv_s": 2497.654421768972,
+  "pred_s": 18681.84671201525
+ },
+ "fold3|s44|rwcp|levels": {
+  "majmin": 82.58006528036819,
+  "majmin_inv": 77.1588184595251,
+  "sevenths": 59.433234520846405,
+  "sevenths_inv": 56.0233323835816
+ },
+ "fold3|s44|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 43363,
+  "inv_says_root": 48357,
+  "pos_n": 915534,
+  "pos_ok": 809491,
+  "pred_inv_s": 1056.7865759637825,
+  "pred_s": 23850.678276640956
+ },
+ "fold3|s44|guitar|levels": {
+  "majmin": 94.42193684003132,
+  "majmin_inv": 77.03336762774738,
+  "sevenths": 92.26988252282258,
+  "sevenths_inv": 74.99900617496617
+ },
+ "fold3|s44|guitar|bass": {
+  "inv_n": 6422,
+  "inv_ok": 1083,
+  "inv_says_root": 4607,
+  "pos_n": 23536,
+  "pos_ok": 21775,
+  "pred_inv_s": 52.74319727891148,
+  "pred_s": 695.7142857142887
+ },
+ "fold4|s42|bpsd|levels": {
+  "majmin": 71.60394385556964,
+  "majmin_inv": 45.900589474973074,
+  "sevenths": 60.87926797246039,
+  "sevenths_inv": 39.545212999589126
+ },
+ "fold4|s42|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 71958,
+  "inv_says_root": 179544,
+  "pos_n": 472164,
+  "pos_ok": 348653,
+  "pred_inv_s": 2557.8405442179496,
+  "pred_s": 18598.90503401089
+ },
+ "fold4|s42|rwcp|levels": {
+  "majmin": 82.63419697275438,
+  "majmin_inv": 77.37410213499805,
+  "sevenths": 57.89581809394198,
+  "sevenths_inv": 54.64673211192453
+ },
+ "fold4|s42|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 45432,
+  "inv_says_root": 47343,
+  "pos_n": 915534,
+  "pos_ok": 811588,
+  "pred_inv_s": 1032.7074829932517,
+  "pred_s": 23832.6595918339
+ },
+ "fold4|s42|guitar|levels": {
+  "majmin": 80.52285006667645,
+  "majmin_inv": 57.034263752071716,
+  "sevenths": 80.76720593456652,
+  "sevenths_inv": 56.93601226919949
+ },
+ "fold4|s42|guitar|bass": {
+  "inv_n": 10197,
+  "inv_ok": 3023,
+  "inv_says_root": 4466,
+  "pos_n": 13449,
+  "pos_ok": 11007,
+  "pred_inv_s": 97.7317913832197,
+  "pred_s": 545.3847165532894
+ },
+ "fold4|s43|bpsd|levels": {
+  "majmin": 71.72020760617605,
+  "majmin_inv": 45.83332791573655,
+  "sevenths": 60.80322532651422,
+  "sevenths_inv": 39.4045702028184
+ },
+ "fold4|s43|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 71407,
+  "inv_says_root": 180570,
+  "pos_n": 472164,
+  "pos_ok": 348320,
+  "pred_inv_s": 2580.1317006805316,
+  "pred_s": 18676.8312018112
+ },
+ "fold4|s43|rwcp|levels": {
+  "majmin": 82.68551261272987,
+  "majmin_inv": 77.62888622938046,
+  "sevenths": 56.61034293702671,
+  "sevenths_inv": 53.579791914621715
+ },
+ "fold4|s43|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 47537,
+  "inv_says_root": 45301,
+  "pos_n": 915534,
+  "pos_ok": 813389,
+  "pred_inv_s": 1018.2182312925751,
+  "pred_s": 23844.896507933503
+ },
+ "fold4|s43|guitar|levels": {
+  "majmin": 80.42033221663152,
+  "majmin_inv": 54.16528266564976,
+  "sevenths": 80.17840092469355,
+  "sevenths_inv": 52.899083261391546
+ },
+ "fold4|s43|guitar|bass": {
+  "inv_n": 10197,
+  "inv_ok": 2874,
+  "inv_says_root": 4599,
+  "pos_n": 13449,
+  "pos_ok": 10516,
+  "pred_inv_s": 95.05294784580471,
+  "pred_s": 547.3020408163286
+ },
+ "fold4|s44|bpsd|levels": {
+  "majmin": 71.68562025768013,
+  "majmin_inv": 45.67330099935052,
+  "sevenths": 61.04079032709245,
+  "sevenths_inv": 39.49672500518146
+ },
+ "fold4|s44|bpsd|bass": {
+  "inv_n": 337379,
+  "inv_ok": 68804,
+  "inv_says_root": 181956,
+  "pos_n": 472164,
+  "pos_ok": 348503,
+  "pred_inv_s": 2464.705306122694,
+  "pred_s": 18648.944036278426
+ },
+ "fold4|s44|rwcp|levels": {
+  "majmin": 82.9553270753783,
+  "majmin_inv": 77.47209218778522,
+  "sevenths": 58.53634164129755,
+  "sevenths_inv": 55.20995378390909
+ },
+ "fold4|s44|rwcp|bass": {
+  "inv_n": 109128,
+  "inv_ok": 43418,
+  "inv_says_root": 48601,
+  "pos_n": 915534,
+  "pos_ok": 810331,
+  "pred_inv_s": 1057.158095238151,
+  "pred_s": 23859.43219954355
+ },
+ "fold4|s44|guitar|levels": {
+  "majmin": 80.02627594241994,
+  "majmin_inv": 56.53675486092442,
+  "sevenths": 79.0543863111255,
+  "sevenths_inv": 55.75207179135707
+ },
+ "fold4|s44|guitar|bass": {
+  "inv_n": 10197,
+  "inv_ok": 2807,
+  "inv_says_root": 3939,
+  "pos_n": 13449,
+  "pos_ok": 10896,
+  "pred_inv_s": 102.08859410430811,
+  "pred_s": 546.058095238097
+ }
+}

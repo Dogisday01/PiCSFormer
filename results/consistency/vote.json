@@ -1,0 +1,72 @@
+{
+ "btc_teacher": {
+  "K1": {
+   "root": 61.85,
+   "majmin": 67.52,
+   "sevenths": 58.97,
+   "mirex": 67.02
+  },
+  "K5": {
+   "root": 62.67,
+   "majmin": 68.73,
+   "sevenths": 60.64,
+   "mirex": 67.74
+  }
+ },
+ "btc_cl": {
+  "K1": {
+   "root": 61.66,
+   "majmin": 66.63,
+   "sevenths": 57.58,
+   "mirex": 66.96
+  },
+  "K5": {
+   "root": 62.01,
+   "majmin": 67.47,
+   "sevenths": 60.16,
+   "mirex": 67.11
+  }
+ },
+ "chordnet": {
+  "K1": {
+   "root": 60.2,
+   "majmin": 65.43,
+   "sevenths": 56.63,
+   "mirex": 64.83
+  },
+  "K5": {
+   "root": 60.08,
+   "majmin": 65.99,
+   "sevenths": 58.2,
+   "mirex": 64.71
+  }
+ },
+ "cnnlstm": {
+  "K1": {
+   "root": 56.88,
+   "majmin": 62.67,
+   "sevenths": 50.73,
+   "mirex": 58.95
+  },
+  "K5": {
+   "root": 56.73,
+   "majmin": 62.37,
+   "sevenths": 50.54,
+   "mirex": 58.73
+  }
+ },
+ "ours": {
+  "K1": {
+   "root": 66.92,
+   "majmin": 71.24,
+   "sevenths": 59.48,
+   "mirex": 70.03
+  },
+  "K5": {
+   "root": 66.83,
+   "majmin": 71.61,
+   "sevenths": 60.05,
+   "mirex": 70.08
+  }
+ }
+}

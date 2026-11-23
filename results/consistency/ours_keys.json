@@ -1,0 +1,200 @@
+{
+ "bpsd|K1": {
+  "root": 66.81,
+  "majmin": 73.76,
+  "triads": 63.38,
+  "sevenths": 60.62,
+  "tetrads": 53.31,
+  "mirex": 70.89
+ },
+ "bpsd|K3": {
+  "root": 67.26,
+  "majmin": 74.22,
+  "triads": 63.89,
+  "sevenths": 61.16,
+  "tetrads": 53.78,
+  "mirex": 71.35
+ },
+ "bpsd|K3-K1": {
+  "root": 0.46,
+  "majmin": 0.46,
+  "triads": 0.51,
+  "sevenths": 0.53,
+  "tetrads": 0.47,
+  "mirex": 0.46
+ },
+ "bpsd|K3-K1|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "bpsd|K5": {
+  "root": 67.23,
+  "majmin": 74.27,
+  "triads": 63.84,
+  "sevenths": 61.14,
+  "tetrads": 53.74,
+  "mirex": 71.36
+ },
+ "bpsd|K5-K1": {
+  "root": 0.42,
+  "majmin": 0.51,
+  "triads": 0.46,
+  "sevenths": 0.51,
+  "tetrads": 0.43,
+  "mirex": 0.47
+ },
+ "bpsd|K5-K1|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "bpsd|K12": {
+  "root": 67.31,
+  "majmin": 74.35,
+  "triads": 63.95,
+  "sevenths": 61.27,
+  "tetrads": 53.88,
+  "mirex": 71.4
+ },
+ "bpsd|K12-K1": {
+  "root": 0.5,
+  "majmin": 0.59,
+  "triads": 0.58,
+  "sevenths": 0.65,
+  "tetrads": 0.56,
+  "mirex": 0.51
+ },
+ "bpsd|K12-K1|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "bpsd|K12>K3_folds": 5,
+ "bpsd|disagree_%": {
+  "-5": 12.11,
+  "-4": 11.59,
+  "-3": 9.98,
+  "-2": 10.64,
+  "-1": 10.28,
+  "0": 0.0,
+  "1": 10.23,
+  "2": 10.65,
+  "3": 10.09,
+  "4": 11.23,
+  "5": 11.97,
+  "6": 12.14
+ },
+ "rwcp|K1": {
+  "root": 84.04,
+  "majmin": 83.38,
+  "triads": 77.19,
+  "sevenths": 56.94,
+  "tetrads": 52.33,
+  "mirex": 84.16
+ },
+ "rwcp|K3": {
+  "root": 84.44,
+  "majmin": 83.86,
+  "triads": 77.66,
+  "sevenths": 57.65,
+  "tetrads": 52.96,
+  "mirex": 84.57
+ },
+ "rwcp|K3-K1": {
+  "root": 0.4,
+  "majmin": 0.48,
+  "triads": 0.47,
+  "sevenths": 0.71,
+  "tetrads": 0.63,
+  "mirex": 0.41
+ },
+ "rwcp|K3-K1|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "rwcp|K5": {
+  "root": 84.53,
+  "majmin": 83.98,
+  "triads": 77.69,
+  "sevenths": 57.95,
+  "tetrads": 53.25,
+  "mirex": 84.58
+ },
+ "rwcp|K5-K1": {
+  "root": 0.49,
+  "majmin": 0.6,
+  "triads": 0.5,
+  "sevenths": 1.01,
+  "tetrads": 0.92,
+  "mirex": 0.43
+ },
+ "rwcp|K5-K1|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "rwcp|K12": {
+  "root": 84.64,
+  "majmin": 84.17,
+  "triads": 77.91,
+  "sevenths": 58.7,
+  "tetrads": 53.97,
+  "mirex": 84.8
+ },
+ "rwcp|K12-K1": {
+  "root": 0.6,
+  "majmin": 0.79,
+  "triads": 0.73,
+  "sevenths": 1.76,
+  "tetrads": 1.64,
+  "mirex": 0.64
+ },
+ "rwcp|K12-K1|folds_pos": {
+  "root": 5,
+  "majmin": 5,
+  "triads": 5,
+  "sevenths": 5,
+  "tetrads": 5,
+  "mirex": 5
+ },
+ "rwcp|K12>K3_folds": 5,
+ "rwcp|disagree_%": {
+  "-5": 9.45,
+  "-4": 9.2,
+  "-3": 7.95,
+  "-2": 8.13,
+  "-1": 7.86,
+  "0": 0.0,
+  "1": 7.66,
+  "2": 8.05,
+  "3": 7.89,
+  "4": 8.74,
+  "5": 8.98,
+  "6": 9.5
+ },
+ "bpsd|false7_%": {
+  "+0": 12.6,
+  "+16": 15.3
+ },
+ "bpsd|minus20_sevenths": {
+  "none": 48.81,
+  "clamp": 58.7
+ }
+}

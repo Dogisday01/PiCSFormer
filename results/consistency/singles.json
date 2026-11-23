@@ -1,0 +1,206 @@
+{
+ "cnnlstm_single_mean": [
+  27.57,
+  43.36
+ ],
+ "cnnlstm_singles": [
+  [
+   28.72,
+   45.47
+  ],
+  [
+   27.34,
+   45.34
+  ],
+  [
+   25.96,
+   39.05
+  ],
+  [
+   28.63,
+   44.89
+  ],
+  [
+   27.19,
+   42.07
+  ]
+ ],
+ "cnnlstm_ensemble": [
+  16.39,
+  27.32
+ ],
+ "ours_single_mean": [
+  18.99,
+  31.47
+ ],
+ "ours_singles": [
+  [
+   19.79,
+   32.66
+  ],
+  [
+   18.87,
+   31.11
+  ],
+  [
+   18.49,
+   31.26
+  ],
+  [
+   19.12,
+   31.12
+  ],
+  [
+   18.66,
+   31.22
+  ]
+ ],
+ "ours_ensemble": [
+  16.91,
+  28.57
+ ],
+ "levels_s0": {
+  "cnnlstm_singles": [
+   {
+    "root": 54.83,
+    "majmin": 60.07,
+    "sevenths": 46.69,
+    "mirex": 56.15
+   },
+   {
+    "root": 55.97,
+    "majmin": 61.13,
+    "sevenths": 45.8,
+    "mirex": 58.7
+   },
+   {
+    "root": 54.69,
+    "majmin": 59.32,
+    "sevenths": 46.94,
+    "mirex": 56.77
+   },
+   {
+    "root": 55.83,
+    "majmin": 60.28,
+    "sevenths": 49.17,
+    "mirex": 58.11
+   },
+   {
+    "root": 55.83,
+    "majmin": 61.32,
+    "sevenths": 47.45,
+    "mirex": 57.98
+   }
+  ],
+  "cnnlstm_single_mean": {
+   "root": 55.43,
+   "majmin": 60.42,
+   "sevenths": 47.21,
+   "mirex": 57.54
+  },
+  "cnnlstm_ensemble": {
+   "root": 56.88,
+   "majmin": 62.67,
+   "sevenths": 50.73,
+   "mirex": 58.95
+  },
+  "ours_singles": [
+   {
+    "root": 66.5,
+    "majmin": 70.26,
+    "sevenths": 58.33,
+    "mirex": 69.11
+   },
+   {
+    "root": 67.1,
+    "majmin": 71.44,
+    "sevenths": 59.74,
+    "mirex": 70.36
+   },
+   {
+    "root": 66.94,
+    "majmin": 71.46,
+    "sevenths": 59.66,
+    "mirex": 70.38
+   },
+   {
+    "root": 66.82,
+    "majmin": 71.19,
+    "sevenths": 59.8,
+    "mirex": 69.65
+   },
+   {
+    "root": 67.22,
+    "majmin": 71.83,
+    "sevenths": 59.88,
+    "mirex": 70.64
+   }
+  ],
+  "ours_single_mean": {
+   "root": 66.92,
+   "majmin": 71.24,
+   "sevenths": 59.48,
+   "mirex": 70.03
+  },
+  "ours_ensemble": {
+   "root": 67.13,
+   "majmin": 71.6,
+   "sevenths": 59.88,
+   "mirex": 70.24
+  }
+ },
+ "known_answer": {
+  "D cnnlstm ensemble": {
+   "new": [
+    16.39,
+    27.32
+   ],
+   "ref": [
+    16.39,
+    27.32
+   ],
+   "ok": true
+  },
+  "D ours single mean": {
+   "new": [
+    18.99,
+    31.47
+   ],
+   "ref": [
+    18.98,
+    31.47
+   ],
+   "ok": true
+  },
+  "s0 cnnlstm ensemble": {
+   "new": {
+    "root": 56.88,
+    "majmin": 62.67,
+    "sevenths": 50.73,
+    "mirex": 58.95
+   },
+   "ref": {
+    "root": 56.88,
+    "majmin": 62.67,
+    "sevenths": 50.73,
+    "mirex": 58.95
+   },
+   "ok": true
+  },
+  "s0 ours single mean": {
+   "new": {
+    "root": 66.92,
+    "majmin": 71.24,
+    "sevenths": 59.48,
+    "mirex": 70.03
+   },
+   "ref": {
+    "root": 66.92,
+    "majmin": 71.24,
+    "sevenths": 59.48,
+    "mirex": 70.03
+   },
+   "ok": true
+  }
+ }
+}

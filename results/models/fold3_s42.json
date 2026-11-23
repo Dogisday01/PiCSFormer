@@ -1,0 +1,382 @@
+{
+ "tag": "CV-Rmnds",
+ "seed": 42,
+ "args": {
+  "tag": "CV-Rmnds",
+  "out": "results\\cycle-mnds\\CV-Rmnds\\fold3",
+  "manifest": "C:\\Users\\abzal\\Documents\\ChatGPT\\\u0434\u0438\u0441\u0441\u0435\u0440 \u0430\u0431\u0437\u0430\u043b\\chord-research-lab\\materials\\research\\manifests\\guitarset.jsonl",
+  "aam_manifest": "C:\\Users\\abzal\\Documents\\ChatGPT\\\u0434\u0438\u0441\u0441\u0435\u0440 \u0430\u0431\u0437\u0430\u043b\\chord-research-lab\\materials\\research\\manifests\\aam.jsonl",
+  "cache": "C:\\Users\\abzal\\Documents\\ChatGPT\\\u0434\u0438\u0441\u0441\u0435\u0440 \u0430\u0431\u0437\u0430\u043b\\chord-research-lab\\cache\\phase_b",
+  "audio_dir": null,
+  "heads": "pcsrn",
+  "dropout": 0.1,
+  "rope": 1,
+  "macaron": 0,
+  "grid": 0,
+  "backbone": "ours",
+  "sched": "onecycle",
+  "augment": 1,
+  "detune": 0,
+  "consist": 0.5,
+  "hier": 0,
+  "aam": 600,
+  "aam_frac": 0.1,
+  "aam_labels": "intended",
+  "crop": 10.0,
+  "select": "balanced",
+  "train_all": 0,
+  "seeds": "42,43,44",
+  "epochs": 60,
+  "steps": 100,
+  "batch": 16,
+  "lr": 0.001,
+  "eval_every": 3,
+  "device": "cuda",
+  "limit": 0,
+  "sev_weight": 0.5,
+  "sev_reweight": 0,
+  "split_select": 0,
+  "joint_sev": 0,
+  "last_epoch": 1,
+  "mn_manifest": "results/cycle-st3/musicnet_train_st3.jsonl",
+  "mn_frac": 0.15,
+  "rw_manifest": "results/side-data/labels-refine-20261029/manifests/piano_c7r.jsonl",
+  "rw_frac": 0.1,
+  "extra_pool": [
+   "materials/research/manifests/jazzsamba_train_c6.jsonl:0.15",
+   "results/cycle-maestro-notes/maestro_notes.jsonl:0.05"
+  ],
+  "distill": "results/cycle-maestro-notes/CV-Rmen/{fold}/CV-Rmen-s{seed}/best.pt",
+  "distill_w": 1.0,
+  "resume": 1,
+  "canon": 0,
+  "aam_gain_db": 0.0,
+  "level_norm": 0,
+  "bass_notes": 1,
+  "conv_heads": "",
+  "meter": "",
+  "fdaa": 0,
+  "bass_pools": "",
+  "ema": 0.0,
+  "cons": 0.1,
+  "timbre_aug": 0.0,
+  "inner_groups": "guitarset:BN3,guitarset:Rock3",
+  "note_pools": "guitarset,musicnet,maestro",
+  "note_good": "results/phase0-next/notes_all.json",
+  "sel_holdout": 0
+ },
+ "params": 2455447,
+ "best_epoch": 60,
+ "best_inner": 92.18847180403893,
+ "penalty_inner": {
+  "0.0": 92.18847180403893,
+  "1.0": 92.39380339534239,
+  "2.0": 92.50967742228755,
+  "4.0": 92.82764903413644,
+  "8.0": 92.90880292030207,
+  "16.0": 93.24928457895527
+ },
+ "chosen_penalty": 16.0,
+ "inner_levels": {
+  "flat": {
+   "comp": {
+    "root": 91.89145180565642,
+    "majmin": 94.5286185661496,
+    "thirds": 90.4187648758853,
+    "triads": 70.56473339965306,
+    "sevenths": 74.07841105611922,
+    "tetrads": 53.837086335818064,
+    "mirex": 83.93697070661403
+   },
+   "pooled": {
+    "root": 60.617954667713086,
+    "majmin": 62.42740623911317,
+    "thirds": 59.881611202827536,
+    "triads": 46.60147736118867,
+    "sevenths": 47.86171830177001,
+    "tetrads": 34.78389214424362,
+    "mirex": 57.65835117724761
+   },
+   "solo": {
+    "root": 29.34445752976977,
+    "majmin": 30.326193912076757,
+    "thirds": 29.34445752976977,
+    "triads": 22.638221322724284,
+    "sevenths": 21.64502554742083,
+    "tetrads": 15.730697952669207,
+    "mirex": 31.379731647881222
+   }
+  },
+  "struct": {
+   "comp": {
+    "root": 91.62769770032725,
+    "majmin": 94.62407368169875,
+    "thirds": 90.00571867547349,
+    "triads": 70.92968368647797,
+    "sevenths": 91.96995059176092,
+    "tetrads": 67.56701968885807,
+    "mirex": 92.19043224411412
+   },
+   "pooled": {
+    "root": 61.1398981052985,
+    "majmin": 61.81859191273413,
+    "thirds": 60.32890859287161,
+    "triads": 46.40585308930519,
+    "sevenths": 53.09382958247166,
+    "tetrads": 39.061930367939546,
+    "mirex": 63.274363210030266
+   },
+   "solo": {
+    "root": 30.65209851026978,
+    "majmin": 29.01311014376953,
+    "thirds": 30.65209851026978,
+    "triads": 21.882022492132403,
+    "sevenths": 14.217708573182414,
+    "tetrads": 10.556841047021019,
+    "mirex": 34.358294175946384
+   }
+  }
+ },
+ "split": null,
+ "train_seconds": 2139.7229793071747,
+ "history": [
+  {
+   "epoch": 3,
+   "loss": 21.859543991088866,
+   "inner_score": 68.82749299780866,
+   "seconds": 150.16144967079163
+  },
+  {
+   "epoch": 6,
+   "loss": 17.801315202713013,
+   "inner_score": 77.43007383537693,
+   "seconds": 278.9575514793396
+  },
+  {
+   "epoch": 9,
+   "loss": 16.29478910446167,
+   "inner_score": 81.73036561908066,
+   "seconds": 416.7319755554199
+  },
+  {
+   "epoch": 12,
+   "loss": 15.411406917572021,
+   "inner_score": 83.95726895798887,
+   "seconds": 546.9388477802277
+  },
+  {
+   "epoch": 15,
+   "loss": 14.7600608253479,
+   "inner_score": 83.03677719884445,
+   "seconds": 666.1929750442505
+  },
+  {
+   "epoch": 18,
+   "loss": 13.962168054580689,
+   "inner_score": 85.96711955933296,
+   "seconds": 763.9592096805573
+  },
+  {
+   "epoch": 21,
+   "loss": 14.01731309890747,
+   "inner_score": 88.13916135852321,
+   "seconds": 861.8543117046356
+  },
+  {
+   "epoch": 24,
+   "loss": 13.135448274612427,
+   "inner_score": 89.28733559838597,
+   "seconds": 958.5349328517914
+  },
+  {
+   "epoch": 27,
+   "loss": 13.22719139099121,
+   "inner_score": 88.42070268496778,
+   "seconds": 1055.7774302959442
+  },
+  {
+   "epoch": 30,
+   "loss": 13.029031782150268,
+   "inner_score": 88.9604065947102,
+   "seconds": 1153.2525022029877
+  },
+  {
+   "epoch": 33,
+   "loss": 12.84430338859558,
+   "inner_score": 91.08861304234135,
+   "seconds": 1250.438024520874
+  },
+  {
+   "epoch": 36,
+   "loss": 12.583690013885498,
+   "inner_score": 90.97244176861727,
+   "seconds": 1348.1432931423187
+  },
+  {
+   "epoch": 39,
+   "loss": 12.602392387390136,
+   "inner_score": 90.7498660731699,
+   "seconds": 1445.0966889858246
+  },
+  {
+   "epoch": 42,
+   "loss": 12.155853338241577,
+   "inner_score": 91.31872874334263,
+   "seconds": 1541.9568724632263
+  },
+  {
+   "epoch": 45,
+   "loss": 12.18826605796814,
+   "inner_score": 92.07767371516083,
+   "seconds": 1638.7825310230255
+  },
+  {
+   "epoch": 48,
+   "loss": 11.92039686203003,
+   "inner_score": 91.77546034504044,
+   "seconds": 1735.917323589325
+  },
+  {
+   "epoch": 51,
+   "loss": 11.944887294769288,
+   "inner_score": 91.84306686709542,
+   "seconds": 1832.91153216362
+  },
+  {
+   "epoch": 54,
+   "loss": 11.841745290756226,
+   "inner_score": 91.84476124392441,
+   "seconds": 1929.9438707828522
+  },
+  {
+   "epoch": 57,
+   "loss": 11.801719217300414,
+   "inner_score": 92.07798454561521,
+   "seconds": 2027.018429517746
+  },
+  {
+   "epoch": 60,
+   "loss": 11.665793199539184,
+   "inner_score": 92.18847180403893,
+   "seconds": 2123.9595761299133
+  }
+ ],
+ "levels": {
+  "CV-Rmnds-s42/flat/raw": {
+   "comp": {
+    "root": 91.68938331216366,
+    "majmin": 93.8462824598179,
+    "thirds": 86.71254767416977,
+    "triads": 58.20656923547796,
+    "sevenths": 63.507363739740384,
+    "tetrads": 37.55663731153153,
+    "mirex": 72.88688183068093
+   },
+   "pooled": {
+    "root": 66.88065596380964,
+    "majmin": 66.86589094639935,
+    "thirds": 60.887775455499096,
+    "triads": 41.472437787079755,
+    "sevenths": 44.791214670388555,
+    "tetrads": 26.48838347333373,
+    "mirex": 53.22072442986126
+   },
+   "solo": {
+    "root": 42.07192861545564,
+    "majmin": 39.885499432980765,
+    "thirds": 35.06300323682844,
+    "triads": 24.738306338681546,
+    "sevenths": 26.075065601036705,
+    "tetrads": 15.420129635135927,
+    "mirex": 33.55456702904154
+   }
+  },
+  "CV-Rmnds-s42/struct/raw": {
+   "comp": {
+    "root": 93.05212393530277,
+    "majmin": 92.87027930479789,
+    "thirds": 87.1772233824029,
+    "triads": 61.49576383790917,
+    "sevenths": 89.68676004046601,
+    "tetrads": 57.071515984558,
+    "mirex": 91.16556936698963
+   },
+   "pooled": {
+    "root": 67.34578214343536,
+    "majmin": 63.52727322027334,
+    "thirds": 60.34534255832629,
+    "triads": 41.655926466618794,
+    "sevenths": 53.943017766968,
+    "tetrads": 34.0856189357686,
+    "mirex": 63.98533203171604
+   },
+   "solo": {
+    "root": 41.63944035156794,
+    "majmin": 34.18426713574873,
+    "thirds": 33.5134617342497,
+    "triads": 21.816089095328383,
+    "sevenths": 18.199275493469973,
+    "tetrads": 11.09972188697922,
+    "mirex": 36.80509469644233
+   }
+  },
+  "CV-Rmnds-s42/flat/viterbi": {
+   "comp": {
+    "root": 91.6320010006761,
+    "majmin": 94.08542877825451,
+    "thirds": 86.97758277863802,
+    "triads": 58.35489569419996,
+    "sevenths": 63.45958917823186,
+    "tetrads": 37.52838465272733,
+    "mirex": 72.87446754012798
+   },
+   "pooled": {
+    "root": 66.9788261063221,
+    "majmin": 66.9131285042627,
+    "thirds": 61.30633627852495,
+    "triads": 41.50173608329587,
+    "sevenths": 45.03625828664812,
+    "tetrads": 26.633296026452474,
+    "mirex": 53.028169042796605
+   },
+   "solo": {
+    "root": 42.32565121196805,
+    "majmin": 39.74082823027089,
+    "thirds": 35.635089778411874,
+    "triads": 24.648576472391767,
+    "sevenths": 26.612927395064375,
+    "tetrads": 15.738207400177625,
+    "mirex": 33.181870545465166
+   }
+  },
+  "CV-Rmnds-s42/struct/viterbi": {
+   "comp": {
+    "root": 93.29296557605491,
+    "majmin": 93.66044740789874,
+    "thirds": 87.68134158448373,
+    "triads": 62.06296205394855,
+    "sevenths": 90.8287225620261,
+    "tetrads": 58.06011093987434,
+    "mirex": 91.6865291691924
+   },
+   "pooled": {
+    "root": 67.20842344039642,
+    "majmin": 64.80444559131153,
+    "thirds": 60.31722864863157,
+    "triads": 42.530131558157414,
+    "sevenths": 55.26192639971651,
+    "tetrads": 35.015158445954505,
+    "mirex": 64.63808470319708
+   },
+   "solo": {
+    "root": 41.123881304737914,
+    "majmin": 35.948443774724325,
+    "thirds": 32.95311571277936,
+    "triads": 22.99730106236627,
+    "sevenths": 19.695130237406858,
+    "tetrads": 11.970205952034682,
+    "mirex": 37.58964023720173
+   }
+  }
+ }
+}

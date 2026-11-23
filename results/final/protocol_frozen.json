@@ -1,0 +1,81 @@
+{
+ "frozen_at": "2026-11-23 14:05:00",
+ "decision": "пользователь 23.11: «оставь текущий лучший результат и берись за заморозку»",
+ "recipe": "CV-Rmnds",
+ "models": "15 = 5 фолдов group-CV GuitarSet × seeds 42/43/44; без переобучения",
+ "rows": {
+  "ours_single": "окна 10 с без перекрытия, штраф из обучения, без правил",
+  "ours_rules": "громкость окон в обучающий диапазон [−12,21; +8,51] дБ + K = 3 (сдвиги −1, 0, +1) + штраф 96 + «тональность → функция» β = 1 + перекрытие окон (10 с, шаг 2 с, кадру — окно, где он ближе к центру); majmin — flat, остальное — «набор высот»"
+ },
+ "open_systems": {
+  "cnnlstm": "штатный инференс, запись целиком (open_eval.py)",
+  "btc_teacher": "штатный инференс, запись целиком (open_eval.py)",
+  "btc_cl": "штатный инференс, запись целиком (open_eval.py)",
+  "chordnet": "штатный инференс, запись целиком (open_eval.py)"
+ },
+ "sets": {
+  "bpsd_final": "20 сонат × 4 исполнения (AS35, FG58, FJ62, WK64) = 80 записей, ann_audio_chord shorthand",
+  "jazz_test": "JazzSAMBA test (sync + async), метки как у val: to_harte, power/невалидные → X, соло барабанов → X, clean_intervals"
+ },
+ "statistics": {
+  "levels": [
+   "root",
+   "majmin",
+   "triads",
+   "sevenths",
+   "tetrads",
+   "mirex"
+  ],
+  "evaluation": "phase_b.evaluate (X не считается)",
+  "bootstrap": "по кластерам (соната / пьеса), 10 000 повторов, numpy default_rng(20261123), 95 % перцентильный интервал",
+  "claim": "«значимо лучше» — интервал целиком выше нуля; иначе «нет значимой разницы» (не «равны»)",
+  "soft_overlap": "BPSD-final: (наша − открытая) на сонатах с другими частями в MusicNet минус без них (15 против 5)"
+ },
+ "weights": {
+  "results/cycle-mnds/CV-Rmnds/fold0/CV-Rmnds-s42/best.pt": "e2f73ec081d08f73acd702e319fa69c32098f4b59ed7f1defe03621dd7c2e024",
+  "results/cycle-mnds/CV-Rmnds/fold0/CV-Rmnds-s43/best.pt": "42993444e589f2b950ef8a9ecc0474bdcdcc577dc31d3e7c28b4334d2bca246c",
+  "results/cycle-mnds/CV-Rmnds/fold0/CV-Rmnds-s44/best.pt": "165f495e88ebec9a1b48d162fe61daf470cb5957dcffcc0c160846904cd8eae6",
+  "results/cycle-mnds/CV-Rmnds/fold1/CV-Rmnds-s42/best.pt": "0256dae7415add6a35498eb790c2620c28ff0146c6920f78057fde49b4d43f54",
+  "results/cycle-mnds/CV-Rmnds/fold1/CV-Rmnds-s43/best.pt": "112513ae9a8a87450a3ff369f45cfb60b4c95ab229668972bdcd88bbaeab9eee",
+  "results/cycle-mnds/CV-Rmnds/fold1/CV-Rmnds-s44/best.pt": "5e8b990410a64b579989235810a4af367c976618387551c35e51419251e4d2d4",
+  "results/cycle-mnds/CV-Rmnds/fold2/CV-Rmnds-s42/best.pt": "5a26e92a0116ad16f638b89bfbaddc48d5e1b0693149698a16bdb5418024c1e8",
+  "results/cycle-mnds/CV-Rmnds/fold2/CV-Rmnds-s43/best.pt": "08c6d90995be712f6b886460440c9759ff5b30d1224e99d39c56e903ccd14666",
+  "results/cycle-mnds/CV-Rmnds/fold2/CV-Rmnds-s44/best.pt": "4aa0b5b51bbf1562c7e979962689f36dfa5058675983b3cf9d060350dfeb6058",
+  "results/cycle-mnds/CV-Rmnds/fold3/CV-Rmnds-s42/best.pt": "cebdbc4c72806980987b01a250b6b696e0956cb989a90213e2c4621a96cd01ef",
+  "results/cycle-mnds/CV-Rmnds/fold3/CV-Rmnds-s43/best.pt": "7d232980535a3d79c863333e68a1613d18e597fd6fec8cec383e12f8490b5d04",
+  "results/cycle-mnds/CV-Rmnds/fold3/CV-Rmnds-s44/best.pt": "df9c51a7cda0cea8fe4f4aa856b8db853191bc306f7f866c2badef37d8ff7a50",
+  "results/cycle-mnds/CV-Rmnds/fold4/CV-Rmnds-s42/best.pt": "c7a4bde95a87c42b5b7e1a490e38d411333a8038229360d450552e4e67a1f64f",
+  "results/cycle-mnds/CV-Rmnds/fold4/CV-Rmnds-s43/best.pt": "5181c660936cd8ac42583485998a28979f4de8473620e4ef4bd625ceaf971ad9",
+  "results/cycle-mnds/CV-Rmnds/fold4/CV-Rmnds-s44/best.pt": "9afda7fc6148dc6de7a3f7a94b8d5795c6a5987e20eaa24ad70c690b6ec7ab00"
+ },
+ "scripts": {
+  "tools/cycles/final_rows.py": "8c4f752594069fbd08000c85e13460291dcd1073660a9a836e499275a88c402b",
+  "tools/cycles/final_report.py": "6bd1fb63a62bb19fddbf719edaf917eb2e8ced457acf9b9556fcd50f65c056a8",
+  "tools/cycles/final_open.py": "ed173fade7ad526ae572943a9a51099fd3cb2280ec02ace75df1427bea1e9ecb",
+  "tools/cycles/bpsd_prepare.py": "01af7a2d96f1549a421020f9af1ed2241b5ec759d54772bb8243651d030d1f66",
+  "tools/cycles/jazzsamba_test_prepare.py": "698f6e2128bc60f9c70ac7403834af8852fb795d25051121ffb9b1869c47711f",
+  "tools/cycles/jazzsamba_prepare.py": "a7646072e8ec8dd5272ee9e77a9707732960dc9f8bc5a6350aca2ea2db412e8e",
+  "tools/cycles/clean_intervals.py": "3fc5886f557d0acf4b88c7718a1a219827dfd6afaf383e010f89b3b3422996b8",
+  "tools/cycles/bpsd_eval.py": "9411f96b0b08997b7d2fe4e07327607dc1f559eaf7c9e9796857fb6976478137",
+  "tools/cycles/key_rows.py": "24472d626dadf86d5c74fcb9cf47c3d882c130f7914648778d8310eef523c71c",
+  "tools/cycles/decoder_rows_lvl.py": "c8670cfce9e11c1e3ede8fd29e2e36e297d94cd8e595c1a256fb9881aa2c6a92",
+  "tools/cycles/phase0_next.py": "567f05e86eb8704f52b00a9ee79e6ad5b3aabb555f879c8d208b65213a11d25a",
+  "tools/cycles/phase0_rope.py": "8897f8f46535769d883cf874afbc187931ad66d9e1c502dabb86498cb6681a59",
+  "tools/cycles/r_gamma.py": "64d35991f6dda2c35f3bc2ef6887c22980146e48cad988792f7fb90003832909",
+  "tools/cycles/lvl0.py": "c98e1b48afe48e9a1816264cec476197dd432ac3651f783fbb5983c2e68d471c",
+  "tools/cycles/overlap_dev.py": "e7b331fc623486d33f567a8f2f2df2a3b05a34faadc298ad0ca57f83e883dcc0",
+  "tools/cycles/cv_run.py": "25b29d6c697aa1180ac202d20f1ffe6a9b45514b14b48ef70bea107bdbabff40",
+  "tools/phase_b/phase_f.py": "4a517988e8c1e68c51f546c7b0a5b9f7956c1eee9b9d13cb987eb387e2cf0d18",
+  "tools/phase_b/phase_b.py": "46c9d7706e18ca1ae22ae6ed38f636669196a74af8d6300e45b93dbedc4c54f6",
+  "tools/phase_b/eval_test.py": "43f2b2c078be56d32dd87921fa4249c1e75f05e7213b5258e3ad696b314d1219",
+  "tools/baselines/open_eval.py": "f616d0cd061cf87d462aaf879d870dea68ef92e59c7ffc6a4daa563e63299acb",
+  "tools/baselines/run_cnnlstm.py": "8c69159f027e890b5e4f1b0957459008becdf01b2ef65ebe9cf4ba84d22b72de",
+  "tools/baselines/run_chordmini.py": "5f1dfd9ea8e1e73ff5631aab155b7cf5335bb2115f41268cb5ca02ced55fe5da"
+ },
+ "data": {
+  "materials/external/bpsd_split/bpsd_split_20261028.json": "c0b5918bb32b091a4ee19c0846acd0e2bd1a37b2561586a98600aee1a270776c",
+  "materials/external/jazzsamba-test-sealed/SEALED_SHA256.json": "d7d5cc23b3cea2f28a31c63e8c015bee383774c00a7a2c31d0f87882919e920c",
+  "results/final-protocol/PROTOCOL.md": "7e53f5e9ea667b8e17f0c2e1d7bad585c1a23a458ffb9589dc61de89e6634ae9",
+  "results/cycle-st3/musicnet_train_st3.jsonl": "631069788a9935311346d63cf926988ac3216bcdd32015ad925437dd7392176d"
+ }
+}
