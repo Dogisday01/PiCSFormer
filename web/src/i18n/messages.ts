@@ -1,7 +1,7 @@
 const ru = {
   nav: { recognize: 'Распознать', history: 'История', about: 'О модели', report: 'Отчёт', skip: 'К содержимому', language: 'Язык', theme: 'Тема', missing: 'Страница не найдена', home: 'На главную' },
-  brand: { name: 'Chord Recognition', tagline: 'аккорды в аудио · локально' },
-  footer: { text: 'Модель CV-Rmnds · 2,46 млн параметров · работает на вашем компьютере', code: 'Код MIT · веса CC BY-NC-SA 4.0' },
+  brand: { name: 'PiCSFormer', tagline: 'аккорды в аудио · локально' },
+  footer: { text: 'PiCSFormer · 2,46 млн параметров · работает на вашем компьютере', code: 'Код MIT · веса CC BY-NC-SA 4.0' },
   common: { loading: 'Загрузка…', retry: 'Повторить', seconds: '{value} с', yes: 'да', no: 'нет', open: 'Открыть', delete: 'Удалить', cancel: 'Отмена', save: 'Сохранить', close: 'Закрыть', noData: 'нет данных' },
   errors: {
     connection: 'Нет связи с локальным сервером. Он запущен? (python -m chordrec.web)', response: 'Сервер ответил неожиданно.', request: 'Запрос не выполнен.',
@@ -43,7 +43,7 @@ const ru = {
   keyMode: { major: 'мажор', minor: 'минор' },
   about: {
     eyebrow: 'Модель', title: 'О модели',
-    lead: 'Компактный распознаватель аккордов (2,46 млн параметров), обученный в основном на гитаре и проверенный на фортепиано, джазе и поп-музыке. Рецепт заморожен, отложенные наборы открыты один раз.',
+    lead: 'PiCSFormer — компактный распознаватель аккордов (2,46 млн параметров; название — от выхода «набор высот», pitch-class set, и Transformer), обученный в основном на гитаре и проверенный на фортепиано, джазе и поп-музыке. Рецепт заморожен, отложенные наборы открыты один раз.',
     results: 'Результаты на отложенных наборах', resultsNote: 'Среднее 15 моделей с пятью правилами; взвешенная полнота символов аккордов, %. Значимо выше трёх открытых систем (BTC, Chord-CNN-LSTM, ChordMini) на сонатах по всем уровням.',
     set: 'Набор', bpsd: 'Сонаты Бетховена (BPSD-final, 80 записей)', jazz: 'Джаз (JazzSAMBA-test, 14 записей)',
     rulesTitle: 'Пять правил распознавания', rules: ['(i) ответы усредняются по трём сдвигам высоты −1, 0, +1 полутон', '(ii) штраф смены аккорда 96 — меньше коротких всплесков', '(iii) громкость каждого окна 10 с подтягивается к диапазону обучения', '(iv) второй проход декодера учитывает тональность и функции аккордов', '(v) окна 10 с с шагом 2 с: каждому моменту — окно, где он ближе к центру'],
@@ -56,8 +56,8 @@ const ru = {
 type Shape = typeof ru;
 const en: Shape = {
   nav: { recognize: 'Recognise', history: 'History', about: 'About', report: 'Report', skip: 'Skip to content', language: 'Language', theme: 'Theme', missing: 'Page not found', home: 'Home' },
-  brand: { name: 'Chord Recognition', tagline: 'chords in audio · runs locally' },
-  footer: { text: 'Model CV-Rmnds · 2.46M parameters · runs on your computer', code: 'Code MIT · weights CC BY-NC-SA 4.0' },
+  brand: { name: 'PiCSFormer', tagline: 'chords in audio · runs locally' },
+  footer: { text: 'PiCSFormer · 2.46M parameters · runs on your computer', code: 'Code MIT · weights CC BY-NC-SA 4.0' },
   common: { loading: 'Loading…', retry: 'Retry', seconds: '{value} s', yes: 'yes', no: 'no', open: 'Open', delete: 'Delete', cancel: 'Cancel', save: 'Save', close: 'Close', noData: 'no data' },
   errors: {
     connection: 'The local server is not reachable. Is it running? (python -m chordrec.web)', response: 'Unexpected server response.', request: 'Request failed.',
@@ -99,7 +99,7 @@ const en: Shape = {
   keyMode: { major: 'major', minor: 'minor' },
   about: {
     eyebrow: 'Model', title: 'About the model',
-    lead: 'A compact chord recogniser (2.46M parameters) trained mainly on guitar and tested on piano, jazz and pop. The recipe was frozen and the held-out sets were opened once.',
+    lead: 'PiCSFormer is a compact chord recogniser (2.46M parameters, named after its pitch-class-set output and Transformer body) trained mainly on guitar and tested on piano, jazz and pop. The recipe was frozen and the held-out sets were opened once.',
     results: 'Held-out results', resultsNote: 'Mean of 15 models with the five rules; weighted chord symbol recall, %. Significantly above three open systems (BTC, Chord-CNN-LSTM, ChordMini) on the sonatas at every level.',
     set: 'Set', bpsd: 'Beethoven sonatas (BPSD-final, 80 recordings)', jazz: 'Jazz (JazzSAMBA-test, 14 recordings)',
     rulesTitle: 'Five inference rules', rules: ['(i) outputs are averaged over pitch shifts of −1, 0, +1 semitone', '(ii) chord-change penalty 96 — fewer short flickers', '(iii) the level of each 10 s window is pulled into the training range', '(iv) a second decoder pass uses the key and chord functions', '(v) 10 s windows with a 2 s hop: every moment takes the window where it is closest to the centre'],

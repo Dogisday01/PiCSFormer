@@ -5,7 +5,7 @@ import { FAMILIES, family, pretty } from './chords';
 import type { KeySegment } from './types';
 
 export function Page({ eyebrow, title, lead, actions, children }: { eyebrow?: string; title: string; lead?: ReactNode; actions?: ReactNode; children: ReactNode }) {
-  useEffect(() => { document.title = `${title} · Chord Recognition`; }, [title]);
+  useEffect(() => { document.title = `${title} · PiCSFormer`; }, [title]);
   return <section className="page">
     <header className="page-head">
       <div>

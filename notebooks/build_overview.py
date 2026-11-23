@@ -27,12 +27,12 @@ def code(text):
 
 # ================================================================ содержание
 md(r"""
-# Распознавание аккордов в аудио: итоговая модель
+# PiCSFormer: распознавание аккордов в аудио
 
 **Магистерская диссертация** «Development of Machine Learning Models for Musical Chord Recognition in Digital Audio».
-Нұрым Абзал, Astana IT University. Состояние на 20.11.2026.
+Нұрым Абзал, Astana IT University. Состояние на 24.11.2026.
 
-Это чистая копия проекта: только код итогового рецепта (пакет `chordrec`), веса 15 обученных моделей и сохранённые числа.
+Это чистая копия проекта: только код итоговой модели PiCSFormer (название — от выхода «набор высот», pitch-class set, и Transformer; пакет `chordrec`), веса 15 обученных моделей и сохранённые числа.
 Ноутбук показывает, где в коде каждый механизм и каждое правило распознавания, сколько каждый дал, итоговые результаты
 и распознаёт аккорды в аудиозаписи прямо здесь. Код проверен против исследовательского кода, на котором получены числа
 диссертации: те же веса дают те же ответы (`tests/check_against_research.py`, раздел 8).
@@ -303,20 +303,20 @@ for title, key, ours, ours_r in [("GuitarSet DEV (24)", "dev", dev_ours(), None)
                                  ("JazzSAMBA-val (12)", "jazz", list(win[LAST]["jazz"].mean((0, 1))), five_rules("jazz"))]:
     rows.append([f"<b>{title}</b>"] + [""] * 6)
     cand = [[openv[k][key]["levels"][q] for q in LEVELS] for _, k in OPEN] + [ours] + ([ours_r] if ours_r else [])
-    names = [n for n, _ in OPEN] + ["наша, одна модель"] + (["наша + 5 правил"] if ours_r else [])
+    names = [n for n, _ in OPEN] + ["PiCSFormer, одна модель"] + (["PiCSFormer + 5 правил"] if ours_r else [])
     best = np.max(np.array(cand), 0)
     for n, v in zip(names, cand):
         rows.append([n] + [f"<b>{f2(x)}</b>" if abs(x - b) < 1e-9 else f2(x) for x, b in zip(v, best)])
-rows.append(["<b>Только наша система</b>"] + [""] * 6)
-rows.append(["RWC-P (100), наша + 5 правил"] + [f2(x) for x in five_rules("rwcp")])
-rows.append(["GuitarSet, отложенные группы, наша + 5 правил"] + [f2(x) for x in five_rules("guitar")])
-table(["Набор и система"] + LEVELS, rows, note="Жирным — лучшее в столбце внутри набора. Наша система — среднее 15 моделей.")
+rows.append(["<b>Только PiCSFormer</b>"] + [""] * 6)
+rows.append(["RWC-P (100), PiCSFormer + 5 правил"] + [f2(x) for x in five_rules("rwcp")])
+rows.append(["GuitarSet, отложенные группы, PiCSFormer + 5 правил"] + [f2(x) for x in five_rules("guitar")])
+table(["Набор и система"] + LEVELS, rows, note="Жирным — лучшее в столбце внутри набора. PiCSFormer — среднее 15 моделей.")
 ''')
 
 md(r"""
 ## 7. Согласованность по тональностям (главный вывод статьи)
 Звук 11 записей BPSD-dev (по одной на сонату) сдвигается на −4, −1, +1, +4 полутона; ответ сдвигается обратно и сравнивается
-с ответом без сдвига. Наша система — итоговый рецепт без правил, пять моделей (по одной на фолд).
+с ответом без сдвига. PiCSFormer — без правил, пять моделей (по одной на фолд).
 """)
 
 code(r'''
@@ -341,9 +341,9 @@ rows.append(["Chord-CNN-LSTM, ансамбль 5 моделей", 5, f2(c, nd=1)
 ours = load("results/consistency/ours_audio_shift.json")  # итоговый рецепт CV-Rmnds
 c, e = ours["single_D"]
 k1, k5 = ours["single_levels"]["K1"]["sevenths"], ours["single_levels"]["K5"]["sevenths"]
-rows.append(["наша, одна модель", 1, f2(c, nd=1), f2(e, nd=1), f2(k1), f2(k5), f2(k5 - k1, True)])
+rows.append(["PiCSFormer, одна модель", 1, f2(c, nd=1), f2(e, nd=1), f2(k1), f2(k5), f2(k5 - k1, True)])
 c, e = ours["ensemble_D"]
-rows.append(["наша, ансамбль 5 моделей", 5, f2(c, nd=1), f2(e, nd=1), f2(ours["ensemble_levels"]["K1"]["sevenths"]), "—", "—"])
+rows.append(["PiCSFormer, ансамбль 5 моделей", 5, f2(c, nd=1), f2(e, nd=1), f2(ours["ensemble_levels"]["K1"]["sevenths"]), "—", "—"])
 table(["Система", "моделей", "меняет ответ, грубо, %", "точно, %", "sevenths", "голосование 5 сдвигов", "прирост"], rows,
       note="«Грубо» — основной тон и род аккорда, «точно» — полная метка; среднее по четырём сдвигам. Выборка мала (11 записей), числа ориентировочные.")
 ''')
@@ -418,8 +418,8 @@ md(r"""
 
 code(r'''
 fin = load("results/final/report_final.json")
-NAMES = [("cnnlstm", "Chord-CNN-LSTM"), ("btc_teacher", "BTC"), ("btc_cl", "ChordMini"), ("ours_single", "наша, одна модель"),
-         ("ours_rules", "наша + 5 правил")]
+NAMES = [("cnnlstm", "Chord-CNN-LSTM"), ("btc_teacher", "BTC"), ("btc_cl", "ChordMini"), ("ours_single", "PiCSFormer, одна модель"),
+         ("ours_rules", "PiCSFormer + 5 правил")]
 rows = []
 for ds, title in [("bpsd_final", "BPSD-final (80)"), ("jazz_test", "JazzSAMBA-test (14)")]:
     rows.append([f"<b>{title}</b>"] + [""] * 6)
@@ -433,7 +433,7 @@ for ds, title in [("bpsd_final", "BPSD-final"), ("jazz_test", "JazzSAMBA-test")]
     for k, n in [("btc_teacher", "BTC"), ("cnnlstm", "Chord-CNN-LSTM")]:
         d = fin[f"{ds}|ours_rules-{k}"]
         rows.append([title, n] + [f"{f2(d[q]['diff'], True)} [{f2(d[q]['ci95'][0])}; {f2(d[q]['ci95'][1])}]" for q in ("majmin", "sevenths", "tetrads")])
-table(["Набор", "против", "majmin", "sevenths", "tetrads"], rows, note="Наша + 5 правил минус открытая система, 95 % интервал.")
+table(["Набор", "против", "majmin", "sevenths", "tetrads"], rows, note="PiCSFormer + 5 правил минус открытая система, 95 % интервал.")
 ''')
 
 

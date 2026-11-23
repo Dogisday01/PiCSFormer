@@ -1,6 +1,6 @@
-# Chord recognition in audio — final model
+# PiCSFormer — chord recognition in audio
 
-Code and trained weights of the compact chord recogniser (2.46M parameters) from the paper
+Code and trained weights of PiCSFormer, a compact chord recogniser (2.46M parameters) named after its pitch-class-set output and Transformer body, from the paper
 *Why Do Chord Recognisers Change Their Answer When the Key or the Dataset Changes?* (A. Nurym, Zh. Basheyeva, G. Abdoldinova)
 and the master's thesis *Development of Machine Learning Models for Musical Chord Recognition in Digital Audio*
 (Astana IT University).
@@ -27,12 +27,12 @@ Below: details in Russian.
 
 ---
 
-## Распознавание аккордов в аудио — итоговая модель
+## PiCSFormer — распознавание аккордов в аудио
 
 Магистерская диссертация «Development of Machine Learning Models for Musical Chord Recognition in Digital Audio»,
 Нұрым Абзал, Astana IT University.
 
-Чистая копия проекта: только код итогового (замороженного) рецепта CV-Rmnds, веса 15 обученных моделей и сохранённые числа. Исследовательский
+Чистая копия проекта: только код итоговой модели PiCSFormer (замороженный рецепт, внутренний код в исследовательском проекте — CV-Rmnds), веса 15 обученных моделей и сохранённые числа. Исследовательский
 проект (`chord-research-lab`) со всеми опытами, планами и отчётами остаётся как есть: числа диссертации получены на нём.
 Этот код проверен против него: те же веса дают те же ответы (раздел «Проверка»).
 

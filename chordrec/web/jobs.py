@@ -25,7 +25,7 @@ class Jobs:
         self.lock = threading.Lock()
 
     def model_info(self) -> dict:
-        return {"name": "CV-Rmnds", "parameters": 2_460_000, "device": str(self.device), "modes": list(MODES)}
+        return {"name": "PiCSFormer", "parameters": 2_460_000, "device": str(self.device), "modes": list(MODES)}
 
     def _models(self, mode: str) -> list:
         with self.lock:
