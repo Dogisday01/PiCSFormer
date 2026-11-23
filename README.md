@@ -18,7 +18,7 @@ and the master's thesis *Development of Machine Learning Models for Musical Chor
   | JazzSAMBA-test, 14 recordings | 68.67 | 62.86 | 58.87 | 41.31 | 38.57 | 70.09 |
 
 **Quick start:** `pip install -r requirements.txt`, then `python -m chordrec.recognize recording.wav` (one model, all five rules,
-CPU). The notebook `notebooks/overview.ipynb` (or `overview.html`) walks through the code, the training steps and all numbers.
+CPU). **Website:** `python -m chordrec.web` opens a local page (http://127.0.0.1:8765) to upload a recording, play it with a live chord timeline, edit labels, compare with a reference `.lab` and export JSON/LAB/CSV; nothing leaves the computer. The notebook `notebooks/overview.ipynb` (or `overview.html`) walks through the code, the training steps and all numbers.
 
 **Licences:** code — MIT (`LICENSE`); trained weights — CC BY-NC-SA 4.0 (`weights/LICENSE.md`), because the training data
 include non-commercial piano datasets (MAPS, SMD) and MAESTRO. Datasets are not redistributed.
@@ -54,6 +54,8 @@ Below: details in Russian.
 | `chordrec/train.py` | обучение одной модели |
 | `chordrec/cv.py` | 15 моделей: 5 фолдов × 3 seeds |
 | `chordrec/evaluate.py` | уровни `mir_eval` (WCSR) |
+| `chordrec/web/` | локальный сайт: FastAPI (загрузка, очередь распознавания, отчёты, правка ревизиями, сверка с эталоном, выгрузка) |
+| `web/` | интерфейс сайта на React + TypeScript (Vite); собранный `web/dist` лежит в репозитории |
 | `weights/` | 15 моделей `fold{k}/s{seed}.pt`, нормировка фолдов `stats_fold{k}.npz`, штраф декодера каждой модели `models.json` |
 | `results/` | сохранённые числа для таблиц ноутбука; источник каждого файла — `results/SOURCES.json` |
 | `notebooks/` | ноутбук и его сборщик `build_overview.py` |
@@ -71,6 +73,8 @@ python -m chordrec.recognize запись.wav --no-rules   # модель как
 python -m chordrec.train --fold 0 --seed 42 --out runs/final   # обучение одной модели (видеокарта, ≈ 35 мин + учитель)
 python -m chordrec.cv --out runs/final                          # все 15 моделей
 python notebooks/build_overview.py                              # пересобрать ноутбук
+python -m chordrec.web                                          # локальный сайт http://127.0.0.1:8765 (--device cuda — на видеокарте)
+cd web; npm install --legacy-peer-deps; npm run build; npm test   # пересобрать интерфейс (Node 22)
 ```
 
 ## Данные
